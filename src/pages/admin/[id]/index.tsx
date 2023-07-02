@@ -4,12 +4,13 @@ import { api } from "@/utils/api";
 import Image from "next/image";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/ui/loading";
 
 export default function ProductPage() {
   const router = useRouter();
   const productId = router.query.id as string;
 
-  const { data } = api.product.getProductById.useQuery(
+  const { data, isLoading } = api.product.getProductById.useQuery(
     {
       id: productId,
     },
@@ -17,6 +18,8 @@ export default function ProductPage() {
       enabled: !!productId,
     }
   );
+
+  if (isLoading) return <Loading />
 
   if (!data) return <div>Something went wrong...</div>;
 

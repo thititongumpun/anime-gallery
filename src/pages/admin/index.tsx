@@ -11,11 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Loading from "@/components/ui/loading";
 
 export default function Dashboard() {
   const { data, isLoading } = api.product.getProducts.useQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   const isNew = (date: Date) => {
     const isNewDate = new Date();
