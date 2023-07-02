@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/common/ThemeProvider";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -19,7 +20,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <meta name="description" content="Otaku Gallery" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} />
+        <ThemeProvider attribute="class" defaultTheme="System" enableSystem>
+          <Component {...pageProps} />
+        </ThemeProvider>
         <Toaster />
       </SessionProvider>
       <Script

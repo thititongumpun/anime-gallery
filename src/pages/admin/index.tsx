@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import React from "react";
-import Layout from "./Layout";
+import Layout from "../../components/common/Layout";
 import Link from "next/link";
 import {
   Table,
@@ -11,11 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Loading from "@/components/ui/loading";
+import Loading from "@/components/common/Loading";
 
 export default function Dashboard() {
   const { data, isLoading } = api.product.getProducts.useQuery();
-
   if (isLoading) return <Loading />;
 
   const isNew = (date: Date) => {
