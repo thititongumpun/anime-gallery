@@ -10,6 +10,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -30,6 +31,14 @@ declare module "next-auth" {
   }
 }
 
+declare module "next-auth/jwt" {
+  interface JWT {
+    /** The user's role. */
+    role?: string;
+  }
+}
+
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -37,14 +46,20 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-        role: user.role
-      },
-    }),
+    session({ session, token }) {
+      session.user.role = token.role as string;
+      return session;
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token
+    },
+  },
+  secret: env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
   },
   adapter: PrismaAdapter(prisma),
   providers: [

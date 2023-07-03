@@ -24,7 +24,7 @@ export default function SideNavbar() {
         {/* Brand */}
         <Link href="/admin">Admin Site</Link>
         {/* User */}
-        <ul className="flex list-none flex-wrap items-center md:hidden">
+        <ul className="flex list-none flex-wrap items-center gap-2 md:hidden">
           <li className="relative inline-block">
             <DarkModeSwitcher />
           </li>
@@ -71,17 +71,17 @@ export default function SideNavbar() {
           <hr className="my-4 md:min-w-full" />
           {/* Heading */}
           <h6 className="block pb-4 pt-1 text-xs font-bold uppercase no-underline md:min-w-full">
-            Admin Layout Pages
+            Pages
           </h6>
           {/* Navigation */}
 
           <ul className="flex list-none flex-col md:min-w-full md:flex-col">
             <li className="items-center">
               <Link
-                href="/admin/dashboard"
+                href="/admin/product"
                 className={
                   "block py-3 text-xs font-bold uppercase " +
-                  (router.pathname.indexOf("/admin/dashboard") !== -1
+                  (router.pathname.indexOf("/admin/product") !== -1
                     ? "text-lightBlue-500 hover:text-lightBlue-600"
                     : "text-blueGray-700 hover:text-blueGray-500")
                 }
@@ -89,21 +89,21 @@ export default function SideNavbar() {
                 <i
                   className={
                     "fas fa-tv mr-2 text-sm " +
-                    (router.pathname.indexOf("/admin/dashboard") !== -1
+                    (router.pathname.indexOf("/admin/product") !== -1
                       ? "opacity-75"
                       : "text-blueGray-300")
                   }
                 ></i>{" "}
-                Dashboard
+                Product
               </Link>
             </li>
 
             <li className="items-center">
               <Link
-                href="/admin/settings"
+                href="/admin/category"
                 className={
                   "block py-3 text-xs font-bold uppercase " +
-                  (router.pathname.indexOf("/admin/settings") !== -1
+                  (router.pathname.indexOf("/admin/category") !== -1
                     ? "text-lightBlue-500 hover:text-lightBlue-600"
                     : "text-blueGray-700 hover:text-blueGray-500")
                 }
@@ -111,12 +111,12 @@ export default function SideNavbar() {
                 <i
                   className={
                     "fas fa-tools mr-2 text-sm " +
-                    (router.pathname.indexOf("/admin/settings") !== -1
+                    (router.pathname.indexOf("/admin/category") !== -1
                       ? "opacity-75"
                       : "text-blueGray-300")
                   }
                 ></i>{" "}
-                Settings
+                Category
               </Link>
             </li>
 

@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import React from "react";
-import Layout from "../../components/common/Layout";
+import Layout from "../../../components/common/Layout";
 import Link from "next/link";
 import {
   Table,
@@ -33,7 +33,7 @@ export default function Dashboard() {
             <TableHead className="mx-auto w-auto">Product Name</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>New</TableHead>
-            <TableHead>Seller</TableHead>
+            <TableHead>Best Seller</TableHead>
             <TableHead>Category</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -77,7 +77,7 @@ export default function Dashboard() {
                 )}
               </TableCell>
               <TableCell>
-                {product.is_bestseller ? (
+                {/* {product.is_bestseller ? ( */}
                   <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ export default function Dashboard() {
                     </svg>
                     Yes
                   </span>
-                ) : (
+                {/* ) : (
                   <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -105,12 +105,12 @@ export default function Dashboard() {
                     </svg>
                     No
                   </span>
-                )}
+                )} */}
               </TableCell>
               <TableCell>{product.category?.category_name}</TableCell>
               <TableCell className="text-right">
                 <Link
-                  href={`/admin/${product.id}`}
+                  href={`/admin/product/${product.id}`}
                   className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
                 >
                   View

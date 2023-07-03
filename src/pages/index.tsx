@@ -2,7 +2,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Home() {
-
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -35,10 +34,10 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-            </p>
+            <p className="text-2xl text-white"></p>
             <AuthShowcase />
           </div>
+          <iframe src="/api/jwt" />
         </div>
       </main>
     </>
@@ -47,7 +46,7 @@ export default function Home() {
 
 function AuthShowcase() {
   const { data: sessionData } = useSession();
-  console.log(sessionData?.user.role)
+  console.log(sessionData?.user);
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">

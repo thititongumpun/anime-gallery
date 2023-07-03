@@ -49,17 +49,13 @@ export default function ProductPage() {
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
               {data?.category?.category_name}
             </span>
-            {data?.is_new && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
-                New
-              </span>
-            )}
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
+              New
+            </span>
 
-            {data?.is_bestseller && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
-                Best Seller
-              </span>
-            )}
+            <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
+              Best Seller
+            </span>
           </div>
           <h3>Published By {data?.publishedBy}</h3>
           <Button variant="destructive" onClick={router.back}>
