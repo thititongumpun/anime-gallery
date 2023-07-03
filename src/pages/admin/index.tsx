@@ -23,9 +23,10 @@ export default function Dashboard() {
 
     return date.getTime() > isNewDate.getTime();
   };
+
   return (
     <Layout>
-      <Table>
+      <Table className="pt-32">
         <TableCaption>A list of your products.</TableCaption>
         <TableHeader>
           <TableRow>

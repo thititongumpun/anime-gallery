@@ -22,6 +22,11 @@ export const categoryRouter = createTRPCRouter({
       });
     }),
 
+  getCategoryCount: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.category.count();
+    }),
+
   createProduct: protectedProcedure
     .input(z.object({
       product_name: z.string(),

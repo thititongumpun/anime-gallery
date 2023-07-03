@@ -19,7 +19,10 @@ export default function DropdownUser() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={session?.user.image as string} alt={session?.user.email as string} />
+            <AvatarImage
+              src={session?.user.image as string}
+              alt={session?.user.email as string}
+            />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </Button>
@@ -29,7 +32,7 @@ export default function DropdownUser() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="flex cursor-pointer items-center"
-          onClick={() => void signOut()}
+          onClick={() => void signOut({ callbackUrl: "/" })}
         >
           <LockClosedIcon className="mr-2 h-4 w-4" />
           <span>Log out</span>

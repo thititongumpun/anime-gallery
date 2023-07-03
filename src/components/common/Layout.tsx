@@ -1,6 +1,8 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import SideNavbar from "./SideNavbar";
+import AdminHeader from "./AdminHeader";
+import HeaderStats from "./HeaderStats";
+import { Separator } from "../ui/separator";
 
 type Props = {
   children: React.ReactNode;
@@ -8,18 +10,18 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <div className="dark:bg-boxdark-2 dark:text-bodydark">
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar />
-        <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          <Header />
-          <main>
-            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
-            </div>
-          </main>
+    <>
+      <SideNavbar />
+      <div className="relative md:ml-64">
+        <AdminHeader />
+        {/* Header */}
+        <HeaderStats />
+        <div className="-m-24 mx-auto w-full px-4 md:px-10">
+          <Separator className="m-2 p-2" />
+          {children}
+          {/* <FooterAdmin /> */}
         </div>
       </div>
-    </div>
+    </>
   );
 }
