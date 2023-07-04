@@ -2,7 +2,6 @@ import { api } from "@/utils/api";
 import React, { useState } from "react";
 import Layout from "@/components/common/Layout";
 import Loading from "@/components/common/Loading";
-// import DataTable from "../../../components/common/DataTable";
 import DataTable from "@/components/common/DataTable";
 import {
   Select,
@@ -13,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,7 +23,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 const options = [
   {
@@ -52,41 +52,29 @@ type Product = {
 const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "product_name",
-    header: "Product Name",
-    size: 50,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Product
+          <ArrowsUpDownIcon
+            className="ml-0 h-3 w-3"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "is_new",
     header: "New",
     cell: ({ row }) => {
       return row.getValue("is_new") ? (
-        <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="h-3 w-3"
-          >
-            <path
-              fillRule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Yes
-        </span>
+        <Badge className="bg-green-500">Yes</Badge>
       ) : (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="h-3 w-3"
-          >
-            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-          </svg>
-          No
-        </span>
+        <Badge className="bg-red-500">No</Badge>
       );
     },
   },
@@ -95,33 +83,9 @@ const columns: ColumnDef<Product>[] = [
     header: "Best Seller",
     cell: ({ row }) => {
       return row.getValue("is_bestseller") ? (
-        <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="h-3 w-3"
-          >
-            <path
-              fillRule="evenodd"
-              d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Yes
-        </span>
+        <Badge className="bg-green-500">Yes</Badge>
       ) : (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="h-3 w-3"
-          >
-            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-          </svg>
-          No
-        </span>
+        <Badge className="bg-red-500">No</Badge>
       );
     },
   },
@@ -154,13 +118,14 @@ const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.product_name)}
+              onClick={() =>
+                navigator.clipboard.writeText(payment.product_name)
+              }
             >
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-            >
+            <DropdownMenuItem>
               <Link href={`/admin/product/${payment.id}`}>View</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>View customer</DropdownMenuItem>
@@ -171,7 +136,6 @@ const columns: ColumnDef<Product>[] = [
     },
   },
 ];
-
 
 export default function ProductPage() {
   const [value, setValue] = useState("cljjvokw9000003l07zte4ryn");

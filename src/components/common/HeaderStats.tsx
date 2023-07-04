@@ -8,6 +8,14 @@ import {
   TagIcon,
 } from "@heroicons/react/24/outline";
 
+type Stats = {
+  statSubtitle: string;
+  statTitle: number;
+  statIcon: React.ReactElement;
+  statIconColor: string;
+  href: string;
+};
+
 export default function HeaderStats() {
   const { data: products, isLoading } = api.product.getProductCount.useQuery();
   const { data: categories, isLoading: isLoadingCategories } =
@@ -23,38 +31,49 @@ export default function HeaderStats() {
   if (!categories) return <div>Somethin went wrong...</div>;
   if (!users) return <div>Somethin went wrong...</div>;
 
+  const stats: Stats[] = [
+    {
+      statSubtitle: "Product",
+      statTitle: products,
+      statIcon: <ArchiveBoxIcon />,
+      statIconColor: "bg-blue-500",
+      href: '/admin/product',
+    },
+    {
+      statSubtitle: "Category",
+      statTitle: categories,
+      statIcon: <TagIcon />,
+      statIconColor: "bg-orange-500",
+      href: '/admin/category',
+    },
+    {
+      statSubtitle: "User",
+      statTitle: users,
+      statIcon: <UserGroupIcon />,
+      statIconColor: "bg-green-500",
+      href: '/admin/user',
+    },
+  ];
+
   return (
     <>
       {/* Header */}
-      <div className="pb-32 pt-12 md:pt-32">
+      <div className="pb-32 pt-12 md:pt-24">
         <div className="mx-auto w-full px-4 md:px-10">
           <div>
             {/* Card stats */}
             <div className="flex flex-wrap justify-center">
-              <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
-                <CardStats
-                  statSubtitle="Product"
-                  statTitle={products}
-                  statIcon={<ArchiveBoxIcon />}
-                  statIconColor="bg-blue-500"
-                />
-              </div>
-              <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
-                <CardStats
-                  statSubtitle="Category"
-                  statTitle={categories}
-                  statIcon={<TagIcon />}
-                  statIconColor="bg-orange-500"
-                />
-              </div>
-              <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
-                <CardStats
-                  statSubtitle="User"
-                  statTitle={users}
-                  statIcon={<UserGroupIcon />}
-                  statIconColor="bg-green-500"
-                />
-              </div>
+              {stats.map((stat, idx) => (
+                <div className="w-full px-4 lg:w-6/12 xl:w-3/12" key={idx}>
+                  <CardStats
+                    statSubtitle={stat.statSubtitle}
+                    statTitle={stat.statTitle}
+                    statIcon={stat.statIcon}
+                    statIconColor={stat.statIconColor}
+                    href={stat.href}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import {
   type ColumnDef,
   type ColumnFiltersState,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -22,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,7 +35,9 @@ export default function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { pathname } = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -41,7 +46,10 @@ export default function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
+      sorting,
       columnFilters,
     },
   });
@@ -49,16 +57,21 @@ export default function DataTable<TData, TValue>({
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter products..."
-          value={
-            (table.getColumn("product_name")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("product_name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        {pathname === "/admin/product" && (
+          <Input
+            placeholder="Filter products..."
+            value={
+              (table.getColumn("product_name")?.getFilterValue() as string) ??
+              ""
+            }
+            onChange={(event) =>
+              table
+                .getColumn("product_name")
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
         <Button className="ml-auto">
           <Link href="/admin/product/create">Create</Link>
         </Button>

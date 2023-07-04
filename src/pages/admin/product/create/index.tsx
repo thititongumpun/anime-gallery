@@ -18,14 +18,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ImageUpload from "@/components/ui/ImageUpload";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/router";
-import type { UploadApiErrorResponse } from "cloudinary";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "@/utils/firebase";
+import { Progress } from "@/components/ui/progress";
 import Layout from "@/components/common/Layout";
 
 const formSchema = z.object({
@@ -49,13 +50,17 @@ const formSchema = z.object({
 export default function CreateProductPage() {
   const router = useRouter();
   const { data: categories } = api.category.getCategories.useQuery();
-
-  const [isImageUploaded, setIsImageUploaded] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState<File>();
+  const [downloadURL, setDownloadURL] = useState("");
+  const [progressUpload, setProgressUpload] = useState(0);
 
   const submit = api.product.create.useMutation({
-    onSuccess(newData) {
-      console.log(newData);
+    onSuccess() {
+      toast({
+        title: "Create Success",
+        description: "Product has been created.",
+      });
+      router.back();
     },
   });
 
@@ -65,65 +70,99 @@ export default function CreateProductPage() {
       product_name: "",
       description: "",
       amount: 0,
-      image_url: imageUrl,
+      image_url: downloadURL,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    submit.mutate({
+    // uploadToFirebase();
+    await submit.mutateAsync({
       categoryId: values.categoryId,
       product_name: values.product_name,
       description: values.description,
       amount: values.amount,
-      image_url: imageUrl,
-    });
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
+      image_url: downloadURL,
     });
   }
 
-  function handleWidgetClick() {
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: "defvbtczt",
-        uploadPreset: "p0yhanvl",
-        apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-        resourceType: "image",
-        multiple: false,
-        cropping: true,
-        sources: [
-          "local",
-          "url",
-          "camera",
-          "dropbox",
-          "unsplash",
-          "google_drive",
-        ],
-      },
-      (error: UploadApiErrorResponse, result: any) => {
-        if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
-          setIsImageUploaded(true);
-          setImageUrl(result.info.secure_url);
-        } else if (error) {
-          console.log(error);
+  const handleSelectedFile = (files: FileList | null) => {
+    if (files) {
+      setImageFile(files[0]);
+    } else {
+      console.error("no file selected");
+    }
+  };
+
+  const uploadToFirebase = () => {
+    if (imageFile) {
+      const name = imageFile.name;
+      const storageRef = ref(storage, `gallery/${name}`);
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          setProgressUpload(progress); // to show progress upload
+
+          switch (snapshot.state) {
+            case "paused":
+              toast({
+                title: "Paused",
+                description: "Upload is paused",
+              });
+              break;
+            case "running":
+              toast({
+                title: "Running",
+                description: "Upload is running",
+              });
+              break;
+          }
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setDownloadURL(url);
+          });
+          toast({
+            title: "Success",
+            description: "upload successful",
+          });
         }
-      }
-    );
-    widget.open();
-  }
+      );
+    } else {
+      toast({
+        title: "Error",
+        description: "upload error",
+      });
+    }
+  };
 
   return (
     <Layout>
       <section className="h-screen">
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg p-8 shadow-lg lg:col-span-3 lg:p-12">
+            <div className="flex">
+              <Input
+                type="file"
+                onChange={(files) => handleSelectedFile(files.target.files)}
+                className="grid w-full max-w-sm items-center gap-1.5"
+              />
+              <Button onClick={uploadToFirebase}>Upload</Button>
+            </div>
+            <div className="mt-5">
+              {imageFile && (
+                <div className="mt-3 text-center">
+                  <Progress value={progressUpload} />
+                </div>
+              )}
+            </div>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -205,12 +244,6 @@ export default function CreateProductPage() {
                     </FormItem>
                   )}
                 />
-                <ImageUpload onClick={handleWidgetClick} />
-                {isImageUploaded ? (
-                  <>
-                    <div>Successfully uploaded</div>
-                  </>
-                ) : null}
                 <FormField
                   control={form.control}
                   name="image_url"

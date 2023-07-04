@@ -4,7 +4,6 @@ import { type AppType } from "next/app";
 import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import Head from "next/head";
-import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 
@@ -25,11 +24,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
         </ThemeProvider>
         <Toaster />
       </SessionProvider>
-      <Script
-        defer
-        src="https://upload-widget.cloudinary.com/global/all.js"
-        type="text/javascript"
-      />
     </>
   );
 };
