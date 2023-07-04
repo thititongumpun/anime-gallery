@@ -83,7 +83,7 @@ export default function SideNavbar() {
                   "block py-3 text-xs font-bold uppercase " +
                   (router.pathname.indexOf("/admin/product") !== -1
                     ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-blueGray-700 hover:text-blueGray-500")
+                    : "hover:text-blueGray-500")
                 }
               >
                 <i
@@ -105,7 +105,7 @@ export default function SideNavbar() {
                   "block py-3 text-xs font-bold uppercase " +
                   (router.pathname.indexOf("/admin/category") !== -1
                     ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-blueGray-700 hover:text-blueGray-500")
+                    : "hover:text-blueGray-500")
                 }
               >
                 <i

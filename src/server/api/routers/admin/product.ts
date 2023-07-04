@@ -5,13 +5,27 @@ import {
 } from "@/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
-  getProducts: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.product.findMany({
-      include: {
-        category: true
-      }
-    });
-  }),
+  getProducts: protectedProcedure
+    .input(z.object({ categoryId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.product.findMany({
+        select: {
+          id: true,
+          product_name: true,
+          amount: true,
+          is_new: true,
+          is_bestseller: true,
+          category: {
+            select: {
+              category_name: true
+            }
+          },
+        },
+        where: {
+          categoryId: input.categoryId
+        }
+      });
+    }),
 
   getProductById: protectedProcedure
     .input(z.object({ id: z.string() }))
@@ -36,6 +50,7 @@ export const productRouter = createTRPCRouter({
       categoryId: z.string(),
       product_name: z.string(),
       description: z.string(),
+      amount: z.coerce.number(),
       image_url: z.string(),
     }))
     .mutation(async ({ ctx, input }) => {
@@ -44,6 +59,7 @@ export const productRouter = createTRPCRouter({
           categoryId: input.categoryId,
           product_name: input.product_name,
           description: input.description,
+          amount: input.amount,
           image_url: input.image_url,
           publishedBy: ctx.session.user.name as string,
         }

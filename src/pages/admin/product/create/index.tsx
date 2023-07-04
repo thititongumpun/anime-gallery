@@ -42,12 +42,13 @@ const formSchema = z.object({
     .max(160, {
       message: "Description must not be longer than 160 characters.",
     }),
+  amount: z.coerce.number({ required_error: "Please input amount" }).min(1),
   image_url: z.string({ required_error: "Please upload image" }),
 });
 
 export default function CreateProductPage() {
   const router = useRouter();
-  const { data: categories } = api.category.getCategorys.useQuery();
+  const { data: categories } = api.category.getCategories.useQuery();
 
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
@@ -63,6 +64,7 @@ export default function CreateProductPage() {
     defaultValues: {
       product_name: "",
       description: "",
+      amount: 0,
       image_url: imageUrl,
     },
   });
@@ -73,6 +75,7 @@ export default function CreateProductPage() {
       categoryId: values.categoryId,
       product_name: values.product_name,
       description: values.description,
+      amount: values.amount,
       image_url: imageUrl,
     });
     toast({
@@ -118,102 +121,121 @@ export default function CreateProductPage() {
 
   return (
     <Layout>
-    <section className="h-screen">
-      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="rounded-lg p-8 shadow-lg lg:col-span-3 lg:p-12">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="product_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Naruto" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is your product display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+      <section className="h-screen">
+        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="rounded-lg p-8 shadow-lg lg:col-span-3 lg:p-12">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="product_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Product Name</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
+                        <Input placeholder="Naruto" {...field} />
                       </FormControl>
-                      <SelectContent>
-                        {categories?.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.category_name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      This is your product category.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Description...." {...field} />
-                    </FormControl>
-                    <FormDescription>Description</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <ImageUpload onClick={handleWidgetClick} />
-              {isImageUploaded ? (
-                <>
-                  <div>Successfully uploaded</div>
-                </>
-              ) : null}
-              <FormField
-                control={form.control}
-                name="image_url"
-                render={({ field }) => (
-                  <FormItem className="hidden">
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Naruto" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is your product display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-          <Button variant="destructive" onClick={router.back}>
-            Cancel
-          </Button>
+                      <FormDescription>
+                        This is your product display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categories?.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.category_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        This is your product category.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Description...." {...field} />
+                      </FormControl>
+                      <FormDescription>Description</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="amount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Amount</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        This is your product amount.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <ImageUpload onClick={handleWidgetClick} />
+                {isImageUploaded ? (
+                  <>
+                    <div>Successfully uploaded</div>
+                  </>
+                ) : null}
+                <FormField
+                  control={form.control}
+                  name="image_url"
+                  render={({ field }) => (
+                    <FormItem className="hidden">
+                      <FormLabel>Product Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="IMAGEURL" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        This is your product display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">Submit</Button>
+              </form>
+            </Form>
+            <Button variant="destructive" onClick={router.back}>
+              Cancel
+            </Button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </Layout>
   );
 }
