@@ -25,6 +25,10 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import type { Product } from "@/types/Product";
+import { api } from "@/utils/api";
+import { toast } from "../ui/use-toast";
+import ConfirmDialog from "./ConfirmDialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,6 +42,22 @@ export default function DataTable<TData, TValue>({
   const { pathname } = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const trpc = api.useContext();
+  const deleteProduct = api.product.delete.useMutation({
+    onSuccess(data) {
+      toast({
+        title: "Delete Success",
+        description: `${data.product_name} has been deleted.`,
+      });
+    },
+    onSettled: async () => {
+      await trpc.product.getProducts.invalidate();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
   const table = useReactTable({
     data,
     columns,
@@ -48,11 +68,26 @@ export default function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+      rowSelection,
     },
   });
+
+  const arraySelectedProductId = table
+    .getSelectedRowModel()
+    .rows.map(({ original }) => (original as Product).id);
+  console.log(arraySelectedProductId);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const handleDelete = (id: string[]) => {
+    if (id.length > 0) {
+      id.map(async (id) => await deleteProduct.mutateAsync({ id: id }));
+    }
+  };
 
   return (
     <div className="w-full">
@@ -72,9 +107,22 @@ export default function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         )}
-        <Button className="ml-auto">
-          <Link href="/admin/product/create">Create</Link>
-        </Button>
+        <div className="ml-auto flex space-x-2 md:flex-1 md:space-x-5">
+          <Button className="">
+            <Link href="/admin/product/create">Create</Link>
+          </Button>
+          <Button onClick={() => setConfirmOpen(true)} className="bg-red-500">
+            Delete
+          </Button>
+          <ConfirmDialog
+            title="Delete Product ?"
+            open={confirmOpen}
+            onClose={() => setConfirmOpen(false)}
+            onConfirm={() => handleDelete(arraySelectedProductId)}
+          >
+            Are you sure you want to delete?
+          </ConfirmDialog>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table className="w-full">

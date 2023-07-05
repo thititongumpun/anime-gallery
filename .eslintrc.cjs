@@ -19,7 +19,24 @@ const config = {
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unsafe-call": "off",
-      }
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            types: {
+              String: false,
+              Boolean: false,
+              Number: false,
+              Symbol: false,
+              "{}": false,
+              Object: false,
+              object: false,
+              Function: false,
+            },
+            extendDefaults: true,
+          },
+        ],
+        "@typescript-eslint/no-unsafe-return": "off",
+      },
     },
   ],
   parser: "@typescript-eslint/parser",

@@ -53,7 +53,7 @@ const CreateProductPage: NextPageWithLayout = () => {
   const [imageFile, setImageFile] = useState<File>();
   const [downloadURL, setDownloadURL] = useState("");
   const [progressUpload, setProgressUpload] = useState(0);
-
+  const trpc = api.useContext();
   const submit = api.product.create.useMutation({
     onSuccess() {
       toast({
@@ -61,6 +61,9 @@ const CreateProductPage: NextPageWithLayout = () => {
         description: "Product has been created.",
       });
       router.back();
+    },
+    onSettled: async () => {
+      await trpc.product.getProducts.invalidate();
     },
   });
 
@@ -75,8 +78,7 @@ const CreateProductPage: NextPageWithLayout = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // uploadToFirebase();
+    console.log(values)
     await submit.mutateAsync({
       categoryId: values.categoryId,
       product_name: values.product_name,

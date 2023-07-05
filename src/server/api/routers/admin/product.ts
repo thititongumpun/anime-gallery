@@ -70,5 +70,15 @@ export const productRouter = createTRPCRouter({
           publishedBy: ctx.session.user.name as string,
         }
       });
-    })
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string(), }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.product.delete({
+        where: {
+          id: input.id
+        }
+      });
+    }),
 });
