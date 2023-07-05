@@ -1,14 +1,19 @@
 import React from "react";
-import Navbar from "./Navbar";
+import dynamic from "next/dynamic";
 
 type Props = {
   children: React.ReactNode;
 };
 
+const Loading = dynamic(() => import("@/components/common/Loading"));
+const DynamicNavbar = dynamic(() => import("@/components/common/Navbar"), {
+  loading: () => <Loading />,
+});
+
 export default function DefaultLayout({ children }: Props) {
   return (
     <div className="flex min-h-screen flex-col justify-between">
-      <Navbar />
+      <DynamicNavbar />
       <main>{children}</main>
     </div>
   );

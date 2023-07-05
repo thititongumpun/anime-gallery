@@ -2,7 +2,6 @@ import React from "react";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownUser from "./DropdownUser";
 import Link from "next/link";
-// import
 
 export default function AdminHeader() {
   return (

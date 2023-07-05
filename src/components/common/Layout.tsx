@@ -1,12 +1,21 @@
 import React from "react";
-import SideNavbar from "./SideNavbar";
-import AdminHeader from "./AdminHeader";
-import HeaderStats from "./HeaderStats";
 import { Separator } from "../ui/separator";
+import dynamic from "next/dynamic";
 
 type Props = {
   children: React.ReactNode;
 };
+
+const Loading = dynamic(() => import("@/components/common/Loading"));
+const SideNavbar = dynamic(() => import("@/components/common/SideNavbar"), {
+  loading: () => <Loading />,
+});
+const AdminHeader = dynamic(() => import("@/components/common/AdminHeader"), {
+  loading: () => <Loading />,
+});
+const HeaderStats = dynamic(() => import("@/components/common/HeaderStats"), {
+  loading: () => <Loading />,
+});
 
 export default function Layout({ children }: Props) {
   return (
@@ -19,7 +28,6 @@ export default function Layout({ children }: Props) {
         <div className="-m-24 mx-auto w-full px-4 md:px-10">
           <Separator className="m-2 p-2" />
           {children}
-          {/* <FooterAdmin /> */}
         </div>
       </div>
     </>

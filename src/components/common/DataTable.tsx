@@ -79,7 +79,6 @@ export default function DataTable<TData, TValue>({
   const arraySelectedProductId = table
     .getSelectedRowModel()
     .rows.map(({ original }) => (original as Product).id);
-  console.log(arraySelectedProductId);
 
   const [confirmOpen, setConfirmOpen] = useState(false);
 
