@@ -1,6 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-export default function Home() {
+import type { NextPageWithLayout } from "./_app";
+
+const Home: NextPageWithLayout = () => {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -41,7 +43,9 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;
 
 function AuthShowcase() {
   const { data: sessionData } = useSession();

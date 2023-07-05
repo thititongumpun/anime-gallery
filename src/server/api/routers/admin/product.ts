@@ -6,7 +6,7 @@ import {
 
 export const productRouter = createTRPCRouter({
   getProducts: protectedProcedure
-    .input(z.object({ categoryId: z.string() }))
+    .input(z.object({ categoryId: z.string().optional() }))
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.product.findMany({
         select: {
@@ -22,7 +22,7 @@ export const productRouter = createTRPCRouter({
           },
         },
         where: {
-          categoryId: input.categoryId
+          categoryId: input.categoryId || undefined
         }
       });
     }),

@@ -26,17 +26,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-
-const options = [
-  {
-    id: "cljjvokw9000003l07zte4ryn",
-    category_name: "Cartoon",
-  },
-  {
-    id: "cljnsk5ir000008l2f9pk98fe",
-    category_name: "Anime",
-  },
-];
+import type { NextPageWithLayout } from "@/pages/_app";
 
 type Product = {
   id: string;
@@ -97,6 +87,8 @@ const columns: ColumnDef<Product>[] = [
       const formatted = new Intl.NumberFormat("th-TH", {
         style: "currency",
         currency: "THB",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       }).format(amount);
 
       return <div className="text-right font-medium">{formatted}</div>;
@@ -137,39 +129,43 @@ const columns: ColumnDef<Product>[] = [
   },
 ];
 
-export default function ProductPage() {
-  const [value, setValue] = useState("cljjvokw9000003l07zte4ryn");
-  const { data: products, isLoading } = api.product.getProducts.useQuery(
-    {
-      categoryId: value,
-    },
-    {
-      enabled: !!value,
-    }
-  );
+const ProductPage: NextPageWithLayout = () => {
+  const { data: categories, isLoading: isCategoryLoading } =
+    api.category.getCategories.useQuery();
+  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("cljjvokw9000003l07zte4ryn");
+  const { data: products, isLoading } = api.product.getProducts.useQuery({
+    categoryId: value || "",
+  });
 
   if (isLoading) return <Loading />;
+  if (isCategoryLoading) return <Loading />;
+  if (!categories) return <>something went wrong</>;
 
   return (
-    <Layout>
-      <div className="container mx-auto py-10">
-        <Select onValueChange={(e) => setValue(e)} defaultValue={value}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Category</SelectLabel>
-              {options.map((item) => (
-                <SelectItem key={item.id} value={item.id}>
-                  {item.category_name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <DataTable columns={columns} data={products as Product[]} />
-      </div>
-    </Layout>
+    <section className="container mx-auto py-10">
+      <Select onValueChange={(e) => setValue(e)}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Category</SelectLabel>
+            {categories.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.category_name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <DataTable columns={columns} data={products as Product[]} />
+    </section>
   );
-}
+};
+
+ProductPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ProductPage;

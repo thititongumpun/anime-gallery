@@ -2,7 +2,7 @@ import React from "react";
 import DataTable from "@/components/common/DataTable";
 import Layout from "@/components/common/Layout";
 import type { ColumnDef } from "@tanstack/react-table";
-
+import type { NextPageWithLayout } from "@/pages/_app";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -52,12 +52,16 @@ export const data: Payment[] = [
   },
 ];
 
-export default function CategoryPage() {
+const CategoryPage: NextPageWithLayout = () => {
   return (
-    <Layout>
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
-      </div>
-    </Layout>
+    <div className="container mx-auto py-10">
+      <DataTable columns={columns} data={data} />
+    </div>
   );
-}
+};
+
+CategoryPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default CategoryPage;

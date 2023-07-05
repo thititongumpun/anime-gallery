@@ -1,30 +1,49 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
+import type { AppProps, AppType } from "next/app";
 import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import type { NextPage } from "next";
+import type { ReactElement, ReactNode } from "react";
+
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
-}) => {
+}: AppPropsWithLayout) => {
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <SessionProvider session={session}>
-        <Head>
-          <title>Otaku Gallery</title>
-          <meta name="description" content="Otaku Gallery" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <ThemeProvider attribute="class" defaultTheme="System" enableSystem>
-          <GoogleAnalytics trackPageViews gaMeasurementId="G-FP8VB4P9R1" />
-          <Component {...pageProps} />
+          {getLayout(
+            <>
+              <Head>
+                <title>Otaku Gallery</title>
+                <meta name="description" content="Otaku Gallery" />
+                <link rel="icon" href="/favicon.ico" />
+              </Head>
+              <GoogleAnalytics
+                trackPageViews
+                gaMeasurementId={gaMeasurementId}
+              />
+              <Component {...pageProps} />
+              <Toaster />
+            </>
+          )}
         </ThemeProvider>
-        <Toaster />
       </SessionProvider>
     </>
   );

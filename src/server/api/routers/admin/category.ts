@@ -5,8 +5,8 @@ import {
 } from "@/server/api/trpc";
 
 export const categoryRouter = createTRPCRouter({
-  getCategories: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.category.findMany();
+  getCategories: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.category.findMany();
   }),
 
   getProductById: protectedProcedure
