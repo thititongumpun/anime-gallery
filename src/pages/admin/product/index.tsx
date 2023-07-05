@@ -133,7 +133,6 @@ const ProductPage: NextPageWithLayout = () => {
   const { data: categories, isLoading: isCategoryLoading } =
     api.category.getCategories.useQuery();
   const [value, setValue] = useState("");
-  // const [value, setValue] = useState("cljjvokw9000003l07zte4ryn");
   const { data: products, isLoading } = api.product.getProducts.useQuery({
     categoryId: value || "",
   });
