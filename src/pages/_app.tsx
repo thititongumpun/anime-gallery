@@ -9,8 +9,9 @@ import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-export type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -40,6 +41,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 gaMeasurementId={gaMeasurementId}
               />
               <Component {...pageProps} />
+              <ReactQueryDevtools initialIsOpen={false} />
               <Toaster />
             </>
           )}
