@@ -20,10 +20,22 @@ const Home: NextPageWithLayout<PageProps> = () => {
   );
   if (isLoading) return <Loading />;
   if (!products) return <>Something went Wrong</>;
+
   return (
     <>
       <div className="mx-auto max-w-6xl">
-        <Heading />
+        <div className="flex items-center justify-center">
+          <Heading open={true}>
+            <h1 className="mx-auto text-center text-3xl font-extrabold leading-relaxed p-2">
+              Get Image Collections
+            </h1>
+            <p className="mx-auto max-w-xl px-2 text-center text-base text-gray-600">
+              Times are tough. Liven up your home with some cute Doggy Stickers.
+              🐶
+            </p>
+          </Heading>
+        </div>
+
         <ProductList products={products} />
       </div>
     </>

@@ -13,12 +13,12 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { NextPageWithLayout } from "@/pages/_app";
+import { Label } from "@/components/ui/label";
 
 type Product = {
   id: string;
@@ -68,6 +68,24 @@ const columns: ColumnDef<Product>[] = [
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const product = row.original;
+      const { id, product_name } = product;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Label className="cursor-pointer">{product_name}</Label>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/admin/product/${id}`}>View</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },
@@ -128,31 +146,30 @@ const columns: ColumnDef<Product>[] = [
       return <div className="text-center font-medium">{formatted}</div>;
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const product = row.original;
-      const { id } = product;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={`/admin/product/${id}`}>View</Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => {
+  //     const product = row.original;
+  //     const { id } = product;
+  //     return (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger asChild>
+  //           <Button variant="ghost" className="h-8 w-8 p-0">
+  //             <span className="sr-only">Open menu</span>
+  //             <DotsHorizontalIcon className="h-3 w-3" />
+  //           </Button>
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent align="end">
+  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+  //           <DropdownMenuSeparator />
+  //           <DropdownMenuItem>
+  //             <Link href={`/admin/product/${id}`}>View</Link>
+  //           </DropdownMenuItem>
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     );
+  //   },
+  // },
 ];
 
 const ProductPage: NextPageWithLayout = () => {
@@ -163,7 +180,7 @@ const ProductPage: NextPageWithLayout = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <section className="mx-auto w-full py-5">
+    <section className="w-full py-5">
       <DataTable columns={columns} data={products as Product[]} />
     </section>
   );
