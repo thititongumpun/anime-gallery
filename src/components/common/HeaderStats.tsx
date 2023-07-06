@@ -18,11 +18,11 @@ type Stats = {
 
 export default function HeaderStats() {
   const { data: products, isLoading } =
-    api.productAdmin.getProductCount.useQuery();
+    api.productAdmin.getProducts.useQuery({categoryId: ""});
   const { data: categories, isLoading: isLoadingCategories } =
-    api.category.getCategoryCount.useQuery();
+    api.category.getCategories.useQuery();
   const { data: users, isLoading: isLoadingUsers } =
-    api.user.getUserCount.useQuery();
+    api.user.getUsers.useQuery();
 
   if (isLoading) return <Loading />;
   if (isLoadingCategories) return <Loading />;
@@ -35,21 +35,21 @@ export default function HeaderStats() {
   const stats: Stats[] = [
     {
       statSubtitle: "Product",
-      statTitle: products,
+      statTitle: products.length,
       statIcon: <ArchiveBoxIcon />,
       statIconColor: "bg-blue-500",
       href: "/admin/product",
     },
     {
       statSubtitle: "Category",
-      statTitle: categories,
+      statTitle: categories.length,
       statIcon: <TagIcon />,
       statIconColor: "bg-orange-500",
       href: "/admin/category",
     },
     {
       statSubtitle: "User",
-      statTitle: users,
+      statTitle: users.length,
       statIcon: <UserGroupIcon />,
       statIconColor: "bg-green-500",
       href: "/admin/user",

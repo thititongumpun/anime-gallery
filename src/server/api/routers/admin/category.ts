@@ -2,10 +2,11 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "@/server/api/trpc";
 
 export const categoryRouter = createTRPCRouter({
-  getCategories: protectedProcedure.query(async ({ ctx }) => {
+  getCategories: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.category.findMany();
   }),
 
@@ -20,10 +21,5 @@ export const categoryRouter = createTRPCRouter({
           category: true
         }
       });
-    }),
-
-  getCategoryCount: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.category.count();
     }),
 });

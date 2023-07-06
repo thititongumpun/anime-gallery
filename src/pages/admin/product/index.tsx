@@ -1,17 +1,8 @@
+import React from "react";
 import { api } from "@/utils/api";
-import React, { useState } from "react";
 import Layout from "@/components/common/Layout";
 import Loading from "@/components/common/Loading";
 import DataTable from "@/components/common/DataTable";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -48,6 +39,7 @@ const columns: ColumnDef<Product>[] = [
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="translate-y-[2px]"
       />
     ),
     cell: ({ row }) => (
@@ -55,6 +47,7 @@ const columns: ColumnDef<Product>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="translate-y-[2px]"
       />
     ),
     enableSorting: false,
@@ -66,6 +59,7 @@ const columns: ColumnDef<Product>[] = [
       return (
         <Button
           variant="ghost"
+          className="w-fit"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Product
@@ -75,6 +69,26 @@ const columns: ColumnDef<Product>[] = [
           />
         </Button>
       );
+    },
+  },
+  {
+    accessorKey: "category.category_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowsUpDownIcon
+            className="ml-0 h-3 w-3"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </Button>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -101,7 +115,7 @@ const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    header: () => <div className="text-center">Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("th-TH", {
@@ -111,7 +125,7 @@ const columns: ColumnDef<Product>[] = [
         maximumFractionDigits: 0,
       }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-center font-medium">{formatted}</div>;
     },
   },
   {
@@ -142,34 +156,14 @@ const columns: ColumnDef<Product>[] = [
 ];
 
 const ProductPage: NextPageWithLayout = () => {
-  const { data: categories, isLoading: isCategoryLoading } =
-    api.category.getCategories.useQuery();
-  const [value, setValue] = useState("");
-  const { data: products, isLoading } = api.productAdmin.getProducts.useQuery({
-    categoryId: value || "",
-  });
+  const { data: products, isLoading } = api.productAdmin.getProducts.useQuery(
+    {}
+  );
 
   if (isLoading) return <Loading />;
-  if (isCategoryLoading) return <Loading />;
-  if (!categories) return <>something went wrong</>;
 
   return (
-    <section className="container mx-auto py-10">
-      <Select onValueChange={(e) => setValue(e)}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Category</SelectLabel>
-            {categories.map((item) => (
-              <SelectItem key={item.id} value={item.id}>
-                {item.category_name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+    <section className="mx-auto w-full py-5">
       <DataTable columns={columns} data={products as Product[]} />
     </section>
   );

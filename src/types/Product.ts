@@ -11,3 +11,8 @@ export type Product = {
   publishedBy: string;
   updatedAt: Date;
 };
+
+export type Category = {
+  id: string;
+  category_name: string;
+}

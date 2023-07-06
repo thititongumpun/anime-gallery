@@ -6,7 +6,7 @@ import {
 
 export const productAdminRouter = createTRPCRouter({
   getProducts: protectedProcedure
-    .input(z.object({ categoryId: z.string().optional() }))
+    .input(z.object({ categoryId: z.string().nullish() }))
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.product.findMany({
         select: {
@@ -38,11 +38,6 @@ export const productAdminRouter = createTRPCRouter({
           category: true
         }
       });
-    }),
-
-  getProductCount: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.product.count();
     }),
 
   create: protectedProcedure
