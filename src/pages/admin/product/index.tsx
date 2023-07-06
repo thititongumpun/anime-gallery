@@ -145,7 +145,7 @@ const ProductPage: NextPageWithLayout = () => {
   const { data: categories, isLoading: isCategoryLoading } =
     api.category.getCategories.useQuery();
   const [value, setValue] = useState("");
-  const { data: products, isLoading } = api.product.getProducts.useQuery({
+  const { data: products, isLoading } = api.productAdmin.getProducts.useQuery({
     categoryId: value || "",
   });
 

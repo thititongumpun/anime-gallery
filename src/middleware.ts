@@ -13,4 +13,7 @@ export default withAuth({
   },
 })
 
-export const config = { matcher: ["/admin/:path*"] };
+export const config = { 
+  // matcher: ["/admin/:path*"]
+matcher: "/((?!_next/image|_next/static|favicon.ico|/admin/:path*).*)",
+};

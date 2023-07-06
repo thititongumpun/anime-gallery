@@ -13,7 +13,7 @@ const ProductPage: NextPageWithLayout = () => {
   const router = useRouter();
   const productId = router.query.id as string;
 
-  const { data, isLoading } = api.product.getProductById.useQuery(
+  const { data, isLoading } = api.productAdmin.getProductById.useQuery(
     {
       id: productId,
     },

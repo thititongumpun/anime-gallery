@@ -10,6 +10,12 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -32,7 +38,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           {getLayout(
             <>
               <Head>
-                <title>Otaku Gallery</title>
+                <title>Gallery</title>
                 <meta name="description" content="Otaku Gallery" />
                 <link rel="icon" href="/favicon.ico" />
               </Head>
@@ -40,7 +46,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 trackPageViews
                 gaMeasurementId={gaMeasurementId}
               />
-              <Component {...pageProps} />
+              <main className={`${inter.variable} font-sans`}>
+                <Component {...pageProps} />
+              </main>
               <ReactQueryDevtools initialIsOpen={false} />
               <Toaster />
             </>

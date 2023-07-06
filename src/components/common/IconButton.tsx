@@ -4,14 +4,6 @@ interface Props {
   className?: string;
 }
 export default function IconButton({ children, className, onClick }: Props) {
-  // const {
-  //   children,
-  //   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //   onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //     event;
-  //   },
-  //   className = "",
-  // } = props;
   return (
     <button
       onClick={onClick}

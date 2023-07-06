@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
+import { HomeIcon } from "@heroicons/react/24/outline";
 import DropdownUser from "./DropdownUser";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 
@@ -22,7 +23,14 @@ export default function SideNavbar() {
           <HamburgerMenuIcon className="h-6 w-6" />
         </button>
         {/* Brand */}
-        <Link href="/admin">Admin Site</Link>
+        <Link
+          href="/"
+          className="hidden items-center justify-center gap-2 md:flex"
+        >
+          <HomeIcon className="h-6 w-6" />
+          Home
+        </Link>
+
         {/* User */}
         <ul className="flex list-none flex-wrap items-center gap-2 md:hidden">
           <li className="relative inline-block">
@@ -43,7 +51,13 @@ export default function SideNavbar() {
           <div className="border-blueGray-200 mb-4 block border-b border-solid pb-4 md:hidden md:min-w-full">
             <div className="flex flex-wrap">
               <div className="w-6/12">
-                <Link href="/admin">Admin Site</Link>
+                <Link
+                  href="/"
+                  className=" inline-flex items-center justify-center gap-2"
+                >
+                  <HomeIcon className="h-4 w-4" />
+                  Home
+                </Link>
               </div>
               <div className="flex w-6/12 justify-end">
                 <button
@@ -56,19 +70,6 @@ export default function SideNavbar() {
               </div>
             </div>
           </div>
-          {/* Form */}
-          <form className="mb-4 mt-6 md:hidden">
-            <div className="mb-3 pt-0">
-              <input
-                type="text"
-                placeholder="Search"
-                className="border-blueGray-500 placeholder-blueGray-300  h-12 w-full rounded  border-solid  px-3 py-2 text-base font-normal leading-snug shadow-none outline-none focus:outline-none"
-              />
-            </div>
-          </form>
-
-          {/* Divider */}
-          <hr className="my-4 md:min-w-full" />
           {/* Heading */}
           <h6 className="block pb-4 pt-1 text-xs font-bold uppercase no-underline md:min-w-full">
             Pages

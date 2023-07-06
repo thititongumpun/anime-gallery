@@ -54,16 +54,14 @@ const CreateProductPage: NextPageWithLayout = () => {
   const [downloadURL, setDownloadURL] = useState("");
   const [progressUpload, setProgressUpload] = useState(0);
   const trpc = api.useContext();
-  const submit = api.product.create.useMutation({
+  const submit = api.productAdmin.create.useMutation({
     onSuccess() {
       toast({
         title: "Create Success",
         description: "Product has been created.",
       });
+      void trpc.productAdmin.getProducts.invalidate();
       router.back();
-    },
-    onSettled: async () => {
-      await trpc.product.getProducts.invalidate();
     },
   });
 
@@ -78,7 +76,7 @@ const CreateProductPage: NextPageWithLayout = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log(values);
     await submit.mutateAsync({
       categoryId: values.categoryId,
       product_name: values.product_name,

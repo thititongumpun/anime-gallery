@@ -10,7 +10,7 @@ type Props = {
 export default function ProductCard({ product }: Props) {
   return (
     <Link
-      href={`#`}
+      href={`/products/${product.id}`}
       passHref
       className="h-120 border-palette-lighter mx-auto w-72 rounded border shadow-lg"
     >
@@ -39,12 +39,12 @@ export default function ProductCard({ product }: Props) {
           </div>
         )}
       </div>
-      <div className="relative h-48">
-        <div className="px-4 pt-4 text-2xl font-bold">
+      <div className=" relative h-48">
+        <div className="px-4 pt-4 font-serif text-lg tracking-wide text-[#E85E18]">
           {/* {title} */}
           {product.product_name}
         </div>
-        <div className="p-4 text-lg font-light">
+        <div className="p-4 text-sm font-light text-slate-500">
           {/* {description} */}
           {product.description}
         </div>

@@ -17,7 +17,8 @@ type Stats = {
 };
 
 export default function HeaderStats() {
-  const { data: products, isLoading } = api.product.getProductCount.useQuery();
+  const { data: products, isLoading } =
+    api.productAdmin.getProductCount.useQuery();
   const { data: categories, isLoading: isLoadingCategories } =
     api.category.getCategoryCount.useQuery();
   const { data: users, isLoading: isLoadingUsers } =
@@ -37,21 +38,21 @@ export default function HeaderStats() {
       statTitle: products,
       statIcon: <ArchiveBoxIcon />,
       statIconColor: "bg-blue-500",
-      href: '/admin/product',
+      href: "/admin/product",
     },
     {
       statSubtitle: "Category",
       statTitle: categories,
       statIcon: <TagIcon />,
       statIconColor: "bg-orange-500",
-      href: '/admin/category',
+      href: "/admin/category",
     },
     {
       statSubtitle: "User",
       statTitle: users,
       statIcon: <UserGroupIcon />,
       statIconColor: "bg-green-500",
-      href: '/admin/user',
+      href: "/admin/user",
     },
   ];
 

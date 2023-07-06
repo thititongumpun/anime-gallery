@@ -2,10 +2,9 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "@/server/api/trpc";
 
-export const productRouter = createTRPCRouter({
+export const productAdminRouter = createTRPCRouter({
   getProducts: protectedProcedure
     .input(z.object({ categoryId: z.string().optional() }))
     .query(async ({ ctx, input }) => {
@@ -26,11 +25,6 @@ export const productRouter = createTRPCRouter({
           categoryId: input.categoryId || undefined
         }
       });
-    }),
-
-  getProductsShow: publicProcedure
-    .query(async ({ ctx, }) => {
-      return await ctx.prisma.product.findMany({});
     }),
 
   getProductById: protectedProcedure

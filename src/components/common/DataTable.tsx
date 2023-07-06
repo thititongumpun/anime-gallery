@@ -44,7 +44,7 @@ export default function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const trpc = api.useContext();
-  const deleteProduct = api.product.delete.useMutation({
+  const deleteProduct = api.productAdmin.delete.useMutation({
     onSuccess(data) {
       toast({
         title: "Delete Success",
@@ -52,7 +52,7 @@ export default function DataTable<TData, TValue>({
       });
     },
     onSettled: async () => {
-      await trpc.product.getProducts.invalidate();
+      await trpc.productAdmin.getProducts.invalidate();
     },
     onError: (error) => {
       console.log(error);

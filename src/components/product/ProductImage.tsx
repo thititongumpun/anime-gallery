@@ -1,17 +1,23 @@
 import React from "react";
+import type { Product } from "@/types/Product";
+import Image from "next/image";
 
-// type Props = {}
+type Props = {
+  product: Product;
+};
 
-export default function ProductImage() {
+export default function ProductImage({ product }: Props) {
   return (
     <div className="border-palette-lighter w-full max-w-md rounded border bg-white shadow-lg md:w-1/2">
       <div className="relative h-96">
-        {/* <Image
-          src={mainImg.originalSrc}
-          alt={mainImg.altText}
-          layout="fill"
+        <Image
+          src={product.image_url}
+          alt={product.product_name}
+          fill
+          priority
+          sizes="(100vw, 100vh)"
           className="transform duration-500 ease-in-out hover:scale-105"
-        /> */}
+        />
       </div>
       {/* <div className="border-palette-lighter relative flex border-t">
         <button
