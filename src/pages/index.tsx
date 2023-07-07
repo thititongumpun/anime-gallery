@@ -26,7 +26,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
       <div className="mx-auto max-w-6xl">
         <div className="flex items-center justify-center">
           <Heading open={true}>
-            <h1 className="mx-auto text-center text-3xl font-extrabold leading-relaxed p-2">
+            <h1 className="mx-auto p-2 text-center text-3xl font-extrabold leading-relaxed">
               Get Image Collections
             </h1>
             <p className="mx-auto max-w-xl px-2 text-center text-base text-gray-600">
