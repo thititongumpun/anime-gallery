@@ -1,16 +1,29 @@
-import React from 'react'
+import React from "react";
+import type { Product } from "@prisma/client";
+import { Button } from "../ui/button";
+import { useCartStore } from "@/stores/useCart";
 
-type Props = {}
+type Props = {
+  product: Product;
+};
 
-export default function ProductDetails({}: Props) {
+export default function ProductDetails({ product }: Props) {  
+  const addToCart = useCartStore((state) => state.addToCart)
+
   return (
-    <div className="flex flex-col justify-between h-full w-full md:w-1/2 max-w-xs mx-auto space-y-4 min-h-128">
-      {/* <BackToProductButton />
-      <ProductInfo 
-        title={productData.title}
-        description={productData.description}
-        price={variantPrice}
-      /> */}
+    <div className="min-h-128 mx-auto flex h-full w-full max-w-xs flex-col justify-between space-y-4 md:w-1/2">
+      {/* <BackToProductButton /> */}
+      <div>
+        <h1 className=" py-2 text-3xl font-extrabold leading-relaxed sm:py-4">
+          {product.product_name}
+        </h1>
+        <p className="text-lg font-medium">{product.description}</p>
+        <div className=" px-1 py-4 text-xl font-medium">
+          {/* <Price currency="$" num={price} numSize="text-2xl" /> */}
+          {product.amount}
+        </div>
+      </div>
+      <Button onClick={() => addToCart(product)}>xd</Button>
       {/* <ProductForm 
         title={productData.title}
         handle={productData.handle}
@@ -19,5 +32,5 @@ export default function ProductDetails({}: Props) {
         setVariantPrice={setVariantPrice}
       /> */}
     </div>
-  )
+  );
 }

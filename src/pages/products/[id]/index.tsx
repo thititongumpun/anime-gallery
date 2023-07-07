@@ -5,17 +5,22 @@ import type { GetStaticProps } from "next";
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import { api } from "@/utils/api";
 import ProductImage from "@/components/product/ProductImage";
+import ProductDetails from "@/components/product/ProductDetails";
 
 const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   const { data } = api.product.getProductById.useQuery({
     id,
   });
+
   if (!data) return <div>404</div>;
+
   return (
     <main className="min-h-screen py-12 sm:pt-20">
       <div className="mx-auto flex w-11/12 max-w-6xl flex-col items-center justify-center space-y-8 md:flex-row md:items-start md:space-x-4 md:space-y-0 lg:space-x-8">
-        <ProductImage product={data}/>
+        <ProductImage product={data} />
+        <ProductDetails product={data} />
       </div>
+      {/* <Button className="flex items-center justify-center">asd</Button> */}
     </main>
   );
 };

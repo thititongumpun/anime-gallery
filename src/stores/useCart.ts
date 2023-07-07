@@ -8,7 +8,7 @@ export type CartState = {
   totalAmount: number;
   numberOfProducts: number;
   addToCart: (product: Product) => void
-  removeFromCart: () => void
+  removeFromCart: (product: Product) => void
 }
 
 const useCartStore = create<CartState>()(
@@ -25,8 +25,8 @@ const useCartStore = create<CartState>()(
             if (alreadyAdded)
               return {
                 ...state,
-                totalAmount: state.totalAmount + product.amount,
-                numberOfProducts: state.numberOfProducts + 1
+                // totalAmount: state.totalAmount + product.amount,
+                // numberOfProducts: state.numberOfProducts + 1
               };
 
             return {
@@ -37,12 +37,12 @@ const useCartStore = create<CartState>()(
             };
           });
         },
-        removeFromCart: () => {
+        removeFromCart: product => {
           set(state => ({
             ...state,
-            cart: [],
-            totalAmount: 0,
-            numberOfProducts: 0
+            cart: state.cart.filter(item => item.id !== product.id),
+            totalAmount: state.totalAmount - product.amount,
+            numberOfProducts: state.numberOfProducts - 1
           }));
         }
       }),
