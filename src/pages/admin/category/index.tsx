@@ -3,60 +3,92 @@ import DataTable from "@/components/common/DataTable";
 import Layout from "@/components/common/Layout";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { NextPageWithLayout } from "@/pages/_app";
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import type { Category } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { api } from "@/utils/api";
+import Loading from "@/components/common/Loading";
 
-type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
-const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<Category>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px]"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-[2px]"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "category_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="w-fit"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category Name
+          <ArrowsUpDownIcon
+            className="ml-0 h-3 w-3"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      const category = row.original;
+      const { id, category_name } = category;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Label className="cursor-pointer">{category_name}</Label>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/admin/product/${id}`}>View</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];
 
-export const data: Payment[] = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
-  },
-];
-
 const CategoryPage: NextPageWithLayout = () => {
+  const { data: categories, isLoading } = api.category.getCategories.useQuery();
+  if (isLoading) return <Loading />;
+  if (!categories) return <>Something went wrong...</>;
+
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-    </div>
+    <section>
+      <DataTable columns={columns} data={categories} />
+    </section>
   );
 };
 

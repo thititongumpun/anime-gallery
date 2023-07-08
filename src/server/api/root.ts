@@ -1,6 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { categoryRouter } from "./routers/admin/category";
-import { userRouter } from "./routers/admin/User";
+import { userRouter } from "./routers/admin/user";
 import { productAdminRouter } from "./routers/admin/product";
 import { productRouter } from "./routers/Product";
 

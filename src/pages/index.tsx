@@ -10,6 +10,7 @@ import type {
   InferGetStaticPropsType,
 } from "next";
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
+import Carousel from "@/components/common/Carousel";
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -36,7 +37,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
             </p>
           </Heading>
         </div>
-
+        <Carousel products={products}/>
         <ProductList products={products} />
       </div>
     </>
