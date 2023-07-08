@@ -86,7 +86,7 @@ export function DataTableToolbar<TData>({
           <Button className="">
             <Link href="/admin/product/create">Create</Link>
           </Button>
-          <Button onClick={() => setConfirmOpen(true)} className="bg-red-500">
+          <Button onClick={() => setConfirmOpen(true)} variant="destructive">
             Delete
           </Button>
           <ConfirmDialog

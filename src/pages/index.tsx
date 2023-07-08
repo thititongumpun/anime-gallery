@@ -18,6 +18,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
     undefined,
     { staleTime: 3000, refetchOnMount: false, refetchOnWindowFocus: false }
   );
+
   if (isLoading) return <Loading />;
   if (!products) return <>Something went Wrong</>;
 

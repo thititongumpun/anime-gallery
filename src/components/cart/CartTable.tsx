@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/stores/useCart";
 import { Separator } from "../ui/separator";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
   products: Product[];
@@ -12,7 +13,7 @@ type Props = {
 
 export default function CartTable({ products }: Props) {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
   const [removeFromCart, totalAmount] = useCartStore((state) => [
     state.removeFromCart,
     state.totalAmount,
@@ -35,7 +36,9 @@ export default function CartTable({ products }: Props) {
                     src={product.image_url}
                     alt={product.description}
                   />
-                  <AvatarFallback>OM</AvatarFallback>
+                  <AvatarFallback>
+                    <Skeleton className="h-32 w-32 rounded-full" />
+                  </AvatarFallback>
                 </Avatar>
                 <div className="w-auto space-y-1 break-words">
                   <p className="text-sm font-medium leading-none">
