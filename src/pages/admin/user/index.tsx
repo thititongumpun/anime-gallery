@@ -86,7 +86,7 @@ const columns: ColumnDef<Account>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Provider
           <ArrowsUpDownIcon
             className="ml-0 h-3 w-3"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}

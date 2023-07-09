@@ -26,17 +26,6 @@ const Home: NextPageWithLayout<PageProps> = () => {
     <>
       <div className="mx-auto max-w-6xl">
         <Hero />
-        {/* <div className="flex items-center justify-center">
-          <Heading open={true}>
-            <h1 className="mx-auto p-2 text-center text-3xl font-extrabold leading-relaxed">
-              Get Image Collections
-            </h1>
-            <p className="mx-auto max-w-xl px-2 text-center text-base text-gray-600">
-              Times are tough. Liven up your home with some cute Doggy Stickers.
-              🐶
-            </p>
-          </Heading>
-        </div> */}
         <ProductList products={products}/>
         {/* <Carousel products={products}/> */}
         {/* <ProductList products={products} /> */}

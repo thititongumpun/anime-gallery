@@ -63,7 +63,7 @@ export default function ProductList({ products }: Props) {
     }
   }, [currentIndex]);
   return (
-    <div className=" flex flex-col gap-6  ">
+    <div className=" flex flex-col gap-6">
       <h4 className="ml-4 w-fit rounded-md bg-slate-200 px-4 py-1  font-semibold drop-shadow-sm dark:bg-black">
         Products
       </h4>

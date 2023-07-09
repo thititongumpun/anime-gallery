@@ -1,4 +1,4 @@
-name: Keep alive cron job
+name: Update Product Data
 on:
   schedule:
     - cron: '0 0 * * *'

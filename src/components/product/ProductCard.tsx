@@ -11,18 +11,16 @@ type Props = {
 
 export default function ProductCard({ product }: Props) {
   const { id, product_name, amount, image_url } = product;
-  const [cart, addToCart] = useCartStore((state) => [
-    state.cart,
-    state.addToCart,
-  ]);
-  // const existInCart = c
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  // console.log(cart.includes(product.id));
   // const { addToCartHandler } = useCartActions();
   // const priceFinal = Math.round(Number(price));
   // const avgRating = getAvgRating(product.Ratings);
   return (
     <div className="mb-2 flex w-full min-w-[15rem] snap-center flex-col justify-between rounded-lg bg-gray-50 shadow-lg drop-shadow-md dark:text-black md:w-60">
       <Link href={`/products/${id}`}>
-        <div className="relative h-40 w-full object-cover ">
+        <div className="relative h-80 w-full object-cover ">
           <Image
             src={image_url}
             alt={product_name}
@@ -57,7 +55,6 @@ export default function ProductCard({ product }: Props) {
                 description: "Added to cart!",
               });
             }}
-            disabled={!cart.every((item) => item.id !== product.id)}
           >
             Add to Cart
           </Button>

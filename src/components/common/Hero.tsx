@@ -1,5 +1,7 @@
 import React from "react";
 import Heading from "../product/Heading";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 type Props = {};
 
@@ -17,9 +19,12 @@ export default function Hero({}: Props) {
           </p>
         </Heading>
         <div className="flex flex-wrap justify-center">
-          <button className="m-2 rounded px-8 py-3 text-lg font-semibold dark:bg-violet-400 dark:text-gray-900">
-            Get started
-          </button>
+          <Button
+            variant="link"
+            className="m-2 rounded border px-8 py-7 text-lg font-semibold shadow-md dark:bg-violet-400 dark:text-gray-900"
+          >
+            <Link href="/products">Shop Now</Link>
+          </Button>
           <button className="m-2 rounded border px-8 py-3 text-lg dark:border-gray-700 dark:text-gray-50">
             Learn more
           </button>
