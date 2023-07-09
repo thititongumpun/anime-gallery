@@ -8,12 +8,12 @@ export default withAuth({
         return token?.role === "ADMIN"
       }
       // `/me` only requires the user to be logged in
-      return !!token
+      // return !!token
+      return true
     },
   },
 })
 
-export const config = { 
-  // matcher: ["/admin/:path*"]
-matcher: "/((?!_next/image|_next/static|favicon.ico|/admin/:path*).*)",
+export const config = {
+  matcher: ["/((?!_next/image|_next/static|favicon.ico|/admin/:path*).*)"],
 };

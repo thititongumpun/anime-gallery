@@ -3,14 +3,13 @@ import DefaultLayout from "@/components/common/DefaultLayout";
 import ProductList from "@/components/product/ProductList";
 import { api } from "@/utils/api";
 import Loading from "@/components/common/Loading";
-import Heading from "@/components/product/Heading";
 import type {
   GetStaticProps,
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next";
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
-import Carousel from "@/components/common/Carousel";
+import Hero from "@/components/common/Hero";
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -26,7 +25,8 @@ const Home: NextPageWithLayout<PageProps> = () => {
   return (
     <>
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-center justify-center">
+        <Hero />
+        {/* <div className="flex items-center justify-center">
           <Heading open={true}>
             <h1 className="mx-auto p-2 text-center text-3xl font-extrabold leading-relaxed">
               Get Image Collections
@@ -36,9 +36,10 @@ const Home: NextPageWithLayout<PageProps> = () => {
               🐶
             </p>
           </Heading>
-        </div>
-        <Carousel products={products}/>
-        <ProductList products={products} />
+        </div> */}
+        <ProductList products={products}/>
+        {/* <Carousel products={products}/> */}
+        {/* <ProductList products={products} /> */}
       </div>
     </>
   );

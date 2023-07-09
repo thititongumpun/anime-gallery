@@ -111,13 +111,29 @@ const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "is_new",
-    header: "New",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          New
+          <ArrowsUpDownIcon
+            className="ml-0 h-3 w-3"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       return row.getValue("is_new") ? (
         <Badge className="bg-green-500">Yes</Badge>
       ) : (
         <Badge className="bg-red-500">No</Badge>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {

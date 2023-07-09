@@ -7,8 +7,11 @@ type Props = {
   product: Product;
 };
 
-export default function ProductDetails({ product }: Props) {  
-  const addToCart = useCartStore((state) => state.addToCart)
+export default function ProductDetails({ product }: Props) {
+  const [cart, addToCart] = useCartStore((state) => [
+    state.cart,
+    state.addToCart,
+  ]);
 
   return (
     <div className="min-h-128 mx-auto flex h-full w-full max-w-xs flex-col justify-between space-y-4 md:w-1/2">
@@ -23,7 +26,12 @@ export default function ProductDetails({ product }: Props) {
           {product.amount}
         </div>
       </div>
-      <Button onClick={() => addToCart(product)}>xd</Button>
+      <Button
+        onClick={() => addToCart(product)}
+        disabled={!cart.every((item) => item.id !== product.id)}
+      >
+        xd
+      </Button>
       {/* <ProductForm 
         title={productData.title}
         handle={productData.handle}

@@ -6,7 +6,7 @@ import DataTable from "@/components/common/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
-import type { User } from "@prisma/client";
+// import type { Account, User } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -19,10 +19,11 @@ import { Label } from "@/components/ui/label";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import Loading from "@/components/common/Loading";
+import type { Account } from "@/types/Account";
 
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<Account>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "user.name",
     header: ({ column }) => {
       return (
         <Button
@@ -39,8 +40,8 @@ const columns: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      const user = row.original;
-      const { id, name } = user;
+      const account = row.original;
+      const { id, name } = account.user;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -50,7 +51,7 @@ const columns: ColumnDef<User>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/admin/product/${id}`}>View</Link>
+              <Link href={`/admin/user/${id}`}>View</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -58,7 +59,27 @@ const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "email",
+    accessorKey: "user.email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowsUpDownIcon
+            className="ml-0 h-3 w-3"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </Button>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "provider",
     header: ({ column }) => {
       return (
         <Button
@@ -79,25 +100,14 @@ const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "role",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Role
-          <ArrowsUpDownIcon
-            className="ml-0 h-3 w-3"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </Button>
-      );
-    },
+    header: "Role",
     cell: ({ row }) => {
-      return row.getValue("role") === "ADMIN" ? (
-        <Badge className="bg-green-500">{row.getValue("role")}</Badge>
+      const account = row.original;
+      const { role } = account.user;
+      return role === "ADMIN" ? (
+        <Badge className="bg-green-500">{role}</Badge>
       ) : (
-        <Badge className="bg-red-500">{row.getValue("role")}</Badge>
+        <Badge className="bg-red-500">{role}</Badge>
       );
     },
     filterFn: (row, id, value) => {
@@ -107,12 +117,13 @@ const columns: ColumnDef<User>[] = [
 ];
 
 const UserPage: NextPageWithLayout = () => {
-  const { data: users, isLoading } = api.user.getUsers.useQuery();
+  // const { data: users, isLoading } = api.user.getUsers.useQuery();
+  const { data: accounts, isLoading } = api.user.getAccounts.useQuery();
   if (isLoading) return <Loading />;
-  if (!users) return <div>Something went wrong...</div>;
+  if (!accounts) return <div>Something went wrong...</div>;
   return (
     <section>
-      <DataTable columns={columns} data={users}></DataTable>
+      <DataTable columns={columns} data={accounts as Account[]}></DataTable>
     </section>
   );
 };
