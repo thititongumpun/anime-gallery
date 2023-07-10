@@ -12,6 +12,7 @@ export const ProductPageList: NextPageWithLayout = () => {
     data: products,
     fetchNextPage,
     hasNextPage,
+    isLoading,
     isFetchingNextPage,
   } = api.product.getProductsBatch.useInfiniteQuery(
     {
@@ -28,6 +29,8 @@ export const ProductPageList: NextPageWithLayout = () => {
     }
   }, [fetchNextPage, hasNextPage, inView]);
 
+  if (isLoading) return <Loading />;
+  
   return (
     <>
       <section className="mt-16 h-fit px-4 py-4 md:px-8">

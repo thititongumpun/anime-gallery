@@ -1,5 +1,5 @@
 import React from "react";
-import Heading from "../product/Heading";
+// import Heading from "../product/Heading";
 import { Button } from "../ui/button";
 import Link from "next/link";
 // import HeroAnimation from "./HeroAnimation";
@@ -20,7 +20,7 @@ export default function Hero({}: Props) {
       <div className="container mx-auto flex flex-col items-center px-4 py-2 text-center md:px-10 lg:px-32 xl:max-w-3xl">
         {/* <HeroAnimation /> */}
         <DynamiAnimation />
-        <Heading open={true}>
+        {/* <Heading open={true}>
           <h1 className="mx-auto p-2 text-center text-3xl font-extrabold leading-relaxed">
             Get Image Collections
           </h1>
@@ -28,7 +28,7 @@ export default function Hero({}: Props) {
             Times are tough. Liven up your home with some cute Doggy Stickers.
             🐶
           </p>
-        </Heading>
+        </Heading> */}
         <div className="flex flex-wrap justify-center">
           <Button
             variant="link"
