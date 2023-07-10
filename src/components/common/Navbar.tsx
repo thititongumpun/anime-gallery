@@ -7,12 +7,14 @@ import { Button } from "../ui/button";
 import DropdownUser from "./DropdownUser";
 import { useCartStore } from "@/stores/useCart";
 import Carts from "../cart/Carts";
-import Search from "../search/Search";
+import dynamic from "next/dynamic";
 
 export default function Navbar() {
   const numberOfProducts = useCartStore((state) => state.numberOfProducts);
   const [cartItems, setCartItems] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const DynamicSearch = dynamic(() => import('@/components/search/Search'));
 
   useEffect(() => {
     setCartItems(numberOfProducts);
@@ -35,7 +37,7 @@ export default function Navbar() {
             </span>
           </h1>
         </Link>
-        <Search />
+        <DynamicSearch />
         <div className="flex items-center gap-2">
           <div className="relative">
             <Button variant="outline" size="icon">
