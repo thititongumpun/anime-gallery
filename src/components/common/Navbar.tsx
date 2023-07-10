@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import DropdownUser from "./DropdownUser";
 import { useCartStore } from "@/stores/useCart";
 import Carts from "../cart/Carts";
+import Search from "../search/Search";
 
 export default function Navbar() {
   const numberOfProducts = useCartStore((state) => state.numberOfProducts);
@@ -19,7 +20,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-20 border border-b bg-white shadow-lg dark:bg-black">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 pb-2 pt-4 md:pt-6">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 pb-2 pt-4 sm:w-full md:pt-6">
         <Link href="/">
           <h1 className="flex no-underline">
             <Image
@@ -27,13 +28,14 @@ export default function Navbar() {
               width={32}
               src="/logo.png"
               alt="logo"
-              className="mr-1 h-8 w-8 object-contain"
+              className="mr-1 hidden h-8 w-8 object-contain md:flex"
             />
-            <span className="pl-3 text-xl font-bold tracking-wide">
+            <span className="pl-1 text-xl font-bold tracking-wide">
               Gallery
             </span>
           </h1>
         </Link>
+        <Search />
         <div className="flex items-center gap-2">
           <div className="relative">
             <Button variant="outline" size="icon">
@@ -52,7 +54,7 @@ export default function Navbar() {
           <DarkModeSwitcher />
           <DropdownUser />
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
