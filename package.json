@@ -49,6 +49,7 @@
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "firebase": "^9.23.0",
+    "lottie-react": "^2.4.0",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "next-themes": "^0.2.1",
