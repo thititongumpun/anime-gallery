@@ -9,6 +9,9 @@ export default function HeroAnimation({}: Props) {
 
   useEffect(() => {
     void import("lottie-web").then((Lottie) => setLottie(Lottie.default));
+    void (async () => {
+      (await import("lottie-web")).default;
+    })();
   }, []);
 
   useEffect(() => {

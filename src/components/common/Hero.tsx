@@ -6,7 +6,7 @@ import Link from "next/link";
 // import HeroAnimation2 from "./HeroAnimation2";
 import dynamic from "next/dynamic";
 
-const DynamiAnimation = dynamic(() => import('./HeroAnimation2'));
+const DynamiAnimation = dynamic(() => import('./HeroAnimation2'), {ssr: false});
 
 type Props = {};
 
