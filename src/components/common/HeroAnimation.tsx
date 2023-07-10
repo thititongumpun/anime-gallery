@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Lottie, { type LottieRefCurrentProps } from "lottie-react";
-import thinkingAnimation from "../../../public/thinking.json";
+import thinkingAnimation from "../../../public/hero.json";
 
 type Props = {};
 
