@@ -8,7 +8,11 @@ export const productRouter = createTRPCRouter({
 
   getProductsShow: publicProcedure
     .query(async ({ ctx, }) => {
-      return await ctx.prisma.product.findMany({});
+      return await ctx.prisma.product.findMany({
+        orderBy: {
+          publishedAt: "desc",
+        },
+      });
     }),
 
   getProductsBatch: publicProcedure
@@ -22,6 +26,9 @@ export const productRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { limit, skip, cursor } = input;
       const items = await ctx.prisma.product.findMany({
+        orderBy: {
+          publishedAt: "desc",
+        },
         take: limit + 1,
         skip: skip,
         cursor: cursor ? { id: cursor } : undefined,

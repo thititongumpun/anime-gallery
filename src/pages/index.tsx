@@ -24,7 +24,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto w-full">
         <Hero />
         <ProductList products={products} />
       </div>

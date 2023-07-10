@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/stores/useCart";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Price from "../common/Price";
 
 type Props = {
   open: boolean;
@@ -88,7 +89,7 @@ export default function Carts({ open, setOpen }: Props) {
                                       <h3>
                                         <a href={"#"}>{product.product_name}</a>
                                       </h3>
-                                      <p className="ml-4">{product.amount}</p>
+                                      <Price amount={product.amount} />
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.description}
@@ -118,7 +119,7 @@ export default function Carts({ open, setOpen }: Props) {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>${totalAmount}</p>
+                        <Price amount={totalAmount} />
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.

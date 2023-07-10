@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useCartStore } from "@/stores/useCart";
 import { toast } from "../ui/use-toast";
+import Price from "../common/Price";
+import { Badge } from "../ui/badge";
 type Props = {
   product: Product;
 };
@@ -12,11 +14,6 @@ type Props = {
 export default function ProductCard({ product }: Props) {
   const { id, product_name, amount, image_url } = product;
   const addToCart = useCartStore((state) => state.addToCart);
-
-  // console.log(cart.includes(product.id));
-  // const { addToCartHandler } = useCartActions();
-  // const priceFinal = Math.round(Number(price));
-  // const avgRating = getAvgRating(product.Ratings);
   return (
     <div className="mb-2 flex w-full min-w-[15rem] snap-center flex-col justify-between rounded-lg bg-gray-50 shadow-lg drop-shadow-md dark:text-black md:w-60">
       <Link href={`/products/${id}`}>
@@ -41,10 +38,11 @@ export default function ProductCard({ product }: Props) {
           <h4 className=" text-center text-xl font-medium hover:text-amber-400 ">
             {product_name}
           </h4>
-
-          <h4 className="text-xl font-bold">${amount}</h4>
+          <div className="flex flex-wrap">
+            <Badge variant="secondary" className="bg-green-500">New</Badge>
+          </div>
+          <Price amount={amount} />
         </Link>
-
         <div className="flex w-full justify-center">
           <Button
             variant="outline"
