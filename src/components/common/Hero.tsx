@@ -7,7 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Loading from "./Loading";
 
-const DynamiAnimation = dynamic(() => import("./HeroAnimation2"), {
+const DynamiAnimation = dynamic(() => import("./HeroAnimation"), {
   ssr: false,
   loading: () => <Loading />,
 });
@@ -17,19 +17,9 @@ type Props = {};
 export default function Hero({}: Props) {
   return (
     <section className="dark:text-gray-100">
-      <div className="container mx-auto flex flex-col items-center px-4 py-2 text-center md:px-10 lg:px-32 xl:max-w-3xl">
-        {/* <HeroAnimation /> */}
+      <div className="container mx-auto flex flex-col items-center px-4 py-2 text-center md:px-10 lg:px-32 xl:max-w-5xl">
         <DynamiAnimation />
-        {/* <Heading open={true}>
-          <h1 className="mx-auto p-2 text-center text-3xl font-extrabold leading-relaxed">
-            Get Image Collections
-          </h1>
-          <p className="mx-auto max-w-xl px-2 text-center text-base">
-            Times are tough. Liven up your home with some cute Doggy Stickers.
-            🐶
-          </p>
-        </Heading> */}
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center mt-12">
           <Button
             variant="link"
             className="m-2 rounded border px-8 py-7 text-lg font-semibold shadow-md dark:bg-violet-400 dark:text-gray-900"

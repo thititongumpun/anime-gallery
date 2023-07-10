@@ -26,9 +26,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
     <>
       <div className="mx-auto max-w-6xl">
         <Hero />
-        <ProductList products={products}/>
-        {/* <Carousel products={products}/> */}
-        {/* <ProductList products={products} /> */}
+        <ProductList products={products} />
       </div>
     </>
   );

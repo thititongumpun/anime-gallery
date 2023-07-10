@@ -7,13 +7,11 @@ type Props = {};
 export default function HeroAnimation({}: Props) {
   const ref = useRef<LottieRefCurrentProps>(null);
   return (
+    <section className="flex w-full">
     <Lottie
-      onComplete={() => {
-        ref.current?.setDirection(-1);
-        ref.current?.play();
-      }}
       lottieRef={ref}
       animationData={thinkingAnimation}
     />
+    </section>
   );
 }
