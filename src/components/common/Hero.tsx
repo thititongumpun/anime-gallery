@@ -5,8 +5,12 @@ import Link from "next/link";
 // import HeroAnimation from "./HeroAnimation";
 // import HeroAnimation2 from "./HeroAnimation2";
 import dynamic from "next/dynamic";
+import Loading from "./Loading";
 
-const DynamiAnimation = dynamic(() => import('./HeroAnimation2'), {ssr: false});
+const DynamiAnimation = dynamic(() => import("./HeroAnimation2"), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 
 type Props = {};
 
