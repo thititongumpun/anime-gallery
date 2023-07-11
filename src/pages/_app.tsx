@@ -4,6 +4,7 @@ import type { AppProps, AppType } from "next/app";
 import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import "@algolia/autocomplete-theme-classic";
+import 'swiper/css/bundle';
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/common/ThemeProvider";

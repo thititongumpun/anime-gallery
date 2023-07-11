@@ -9,7 +9,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (apiSecret !== process.env.NEXT_PUBLIC_API_SECRET) {
     res.status(401).json({ message: 'Unauthorized' });
   }
-  const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "", process.env.NEXT_PUBLIC_ALGOLIA_ADMINSECRET || "");
+  const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APPID || "", process.env.NEXT_PUBLIC_ALGOLIA_ADMINSECRET || "");
   const index = client.initIndex('anime_gallery');
 
   const products = await prisma.product.findMany({

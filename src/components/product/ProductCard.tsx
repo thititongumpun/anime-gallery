@@ -17,7 +17,7 @@ export default function ProductCard({ product }: Props) {
   return (
     <div className="mb-2 flex w-full min-w-[15rem] snap-center flex-col justify-between rounded-lg bg-gray-50 shadow-lg drop-shadow-md dark:text-black md:w-60">
       <Link href={`/products/${id}`}>
-        <div className="relative h-80 w-full object-cover ">
+        <div className="relative h-72 w-full">
           <Image
             src={image_url}
             alt={product_name}
@@ -39,7 +39,8 @@ export default function ProductCard({ product }: Props) {
             {product_name}
           </h4>
           <div className="flex flex-wrap">
-            <Badge variant="secondary" className="bg-green-500">New</Badge>
+            <Badge>New</Badge>
+            <Badge>Hot</Badge>
           </div>
           <Price amount={amount} />
         </Link>

@@ -9,6 +9,5 @@ jobs:
       - name: Call endpoint to update product
         run: |
           run: |
-          curl --request GET \
-            --url '${{ secrets.SITE_URL }}/api/algolia' \
-            --header 'x-api-secret: ${{ secrets.API_SECRET }}'
+          curl --location '${{ secrets.SITE_URL }}/api/algolia' \
+          --header 'x-api-secret: ${{ secrets.API_SECRET }}'

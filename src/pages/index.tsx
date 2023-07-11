@@ -1,6 +1,6 @@
 import type { NextPageWithLayout } from "./_app";
 import DefaultLayout from "@/components/common/DefaultLayout";
-import ProductList from "@/components/product/ProductList";
+// import ProductList from "@/components/product/ProductList";
 import { api } from "@/utils/api";
 import Loading from "@/components/common/Loading";
 import type {
@@ -10,7 +10,8 @@ import type {
 } from "next";
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import Hero from "@/components/common/Hero";
-
+import dynamic from "next/dynamic";
+const DynamicSlider = dynamic(() => import("@/components/common/Slider"));
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Home: NextPageWithLayout<PageProps> = () => {
@@ -26,7 +27,8 @@ const Home: NextPageWithLayout<PageProps> = () => {
     <>
       <div className="mx-auto w-full">
         <Hero />
-        <ProductList products={products} />
+        <DynamicSlider products={products} />
+        {/* <ProductList products={products} /> */}
       </div>
     </>
   );
