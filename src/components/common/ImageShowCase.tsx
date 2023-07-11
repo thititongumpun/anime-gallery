@@ -13,7 +13,7 @@ export default function ImageShowCase({ product }: Props) {
 
   return (
     <Link href={`/products/${id}`}>
-      <div className="relative justify-center items-center h-32 w-32 md:h-64 md:w-64">
+      <div className="relative mx-auto h-32 w-32 md:h-64 md:w-64">
         <Image
           loader={cloudinaryImageLoader}
           src={image_url}

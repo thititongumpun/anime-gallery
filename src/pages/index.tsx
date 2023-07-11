@@ -25,10 +25,9 @@ const Home: NextPageWithLayout<PageProps> = () => {
 
   return (
     <>
-      <div className="mx-auto w-full">
+      <div className="container mx-auto max-w-7xl">
         <Hero />
         <DynamicSlider products={products} />
-        {/* <ProductList products={products} /> */}
       </div>
     </>
   );
