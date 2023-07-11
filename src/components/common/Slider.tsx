@@ -5,7 +5,6 @@ import {
   EffectCoverflow,
   Autoplay,
   Pagination,
-  FreeMode,
 } from "swiper/modules";
 import type { Product } from "@prisma/client";
 import ImageShowCase from "./ImageShowCase";
@@ -16,8 +15,15 @@ type Props = {
 export default function Slider({ products }: Props) {
   return (
     <Swiper
-      spaceBetween={5}
+      effect="coverflow"
       slidesPerView={5}
+      coverflowEffect={{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      }}
       keyboard={{
         enabled: true,
       }}
@@ -30,7 +36,7 @@ export default function Slider({ products }: Props) {
       }}
       grabCursor={true}
       loop={true}
-      modules={[Keyboard, EffectCoverflow, Autoplay, Pagination, FreeMode]}
+      modules={[Keyboard, EffectCoverflow, Autoplay, Pagination]}
     >
       {products?.map((img, idx) => (
         <SwiperSlide key={idx}>
