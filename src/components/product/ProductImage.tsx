@@ -1,6 +1,7 @@
 import React from "react";
 import type { Product } from "@/types/Product";
 import Image from "next/image";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 type Props = {
   product: Product;
@@ -11,6 +12,7 @@ export default function ProductImage({ product }: Props) {
     <div className="border-palette-lighter w-full max-w-md rounded border bg-white shadow-lg md:w-1/2">
       <div className="relative h-96">
         <Image
+          loader={cloudinaryImageLoader}
           src={product.image_url}
           alt={product.product_name}
           fill

@@ -123,7 +123,7 @@ const CreateProductPage: NextPageWithLayout = () => {
         formData,
         config
       );
-      setSecureUrl(data.secure_url);
+      setSecureUrl(data.public_id);
     } catch (err) {
       console.log(err);
     }

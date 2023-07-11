@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@prisma/client";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 type Props = {
   products?: Product[];
@@ -20,11 +21,12 @@ export default function Carousel({ products }: Props) {
           >
             {product.image_url ? (
               <Image
+                src={product.image_url}
+                loader={cloudinaryImageLoader}
                 alt={product.product_name}
                 className="h-full w-full object-cover"
                 fill
                 sizes="33vw"
-                src={product.image_url}
               />
             ) : null}
             <div className="absolute inset-y-0 right-0 flex items-center justify-center">

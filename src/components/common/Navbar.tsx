@@ -8,13 +8,14 @@ import DropdownUser from "./DropdownUser";
 import { useCartStore } from "@/stores/useCart";
 import Carts from "../cart/Carts";
 import dynamic from "next/dynamic";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 export default function Navbar() {
   const numberOfProducts = useCartStore((state) => state.numberOfProducts);
   const [cartItems, setCartItems] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const DynamicSearch = dynamic(() => import('@/components/search/Search'));
+  const DynamicSearch = dynamic(() => import("@/components/search/Search"));
 
   useEffect(() => {
     setCartItems(numberOfProducts);
@@ -26,9 +27,10 @@ export default function Navbar() {
         <Link href="/">
           <h1 className="flex no-underline">
             <Image
+              loader={cloudinaryImageLoader}
               height={32}
               width={32}
-              src="/logo.png"
+              src="/anime/fnjc39s5xjbmoqpyqmkn"
               alt="logo"
               className="mr-1 hidden h-8 w-8 object-contain md:flex"
             />

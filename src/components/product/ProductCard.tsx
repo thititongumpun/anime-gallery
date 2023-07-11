@@ -7,6 +7,7 @@ import { useCartStore } from "@/stores/useCart";
 import { toast } from "../ui/use-toast";
 import Price from "../common/Price";
 import { Badge } from "../ui/badge";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 type Props = {
   product: Product;
 };
@@ -19,6 +20,7 @@ export default function ProductCard({ product }: Props) {
       <Link href={`/products/${id}`}>
         <div className="relative h-72 w-full">
           <Image
+            loader={cloudinaryImageLoader}
             src={image_url}
             alt={product_name}
             fill

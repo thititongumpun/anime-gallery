@@ -8,6 +8,7 @@ import Loading from "@/components/common/Loading";
 import Layout from "@/components/common/Layout";
 import { Label } from "@/components/ui/label";
 import type { NextPageWithLayout } from "@/pages/_app";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 const ProductPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const ProductPage: NextPageWithLayout = () => {
       <AspectRatio ratio={16 / 9}>
         {data?.image_url ? (
           <Image
+            loader={cloudinaryImageLoader}
             src={data.image_url}
             alt={data.description}
             fill

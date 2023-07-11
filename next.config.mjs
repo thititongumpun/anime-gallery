@@ -18,9 +18,6 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  images: {
-    domains: ["res.cloudinary.com", "firebasestorage.googleapis.com"],
-  },
 };
 
 export default config;

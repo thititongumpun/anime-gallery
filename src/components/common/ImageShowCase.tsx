@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@prisma/client";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 type Props = {
   product: Product;
@@ -9,10 +10,12 @@ type Props = {
 
 export default function ImageShowCase({ product }: Props) {
   const { id, image_url, product_name } = product;
+
   return (
     <Link href={`/products/${id}`}>
       <div className="relative h-32 w-full md:h-52 md:w-64">
         <Image
+          loader={cloudinaryImageLoader}
           src={image_url}
           alt={product_name}
           fill

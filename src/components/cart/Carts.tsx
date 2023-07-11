@@ -6,6 +6,7 @@ import { useCartStore } from "@/stores/useCart";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Price from "../common/Price";
+import { cloudinaryImageLoader } from "@/utils/cloudinary";
 
 type Props = {
   open: boolean;
@@ -74,6 +75,7 @@ export default function Carts({ open, setOpen }: Props) {
                               <li key={product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <Image
+                                    loader={cloudinaryImageLoader}
                                     src={product.image_url}
                                     alt={product.description}
                                     width={100}
