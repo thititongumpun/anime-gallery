@@ -16,12 +16,12 @@ const reviewStyles = {
 
 export default function ReviewCard({ author, date, text, rating }: Props) {
   return (
-    <div className="flex w-full max-w-5xl flex-col space-x-8 overflow-hidden rounded-lg bg-violet-600 drop-shadow-xl">
-      <div className="flex w-full items-center justify-between border-b-2 border-slate-400/20 px-8 py-4 ">
+    <div className="flex w-full max-w-5xl flex-col space-x-8 overflow-hidden rounded-lg bg-slate-200 shadow-lg drop-shadow-xl">
+      <div className="flex w-full items-center justify-between gap-4 border-b-2 border-slate-400/20 px-8 py-4">
         <div className="flex items-center gap-4">
-          <h2 className="text-lg">{author}</h2>
+          <h2 className="text-transform: text-md capitalize">{author}</h2>
         </div>
-        {date.toLocaleDateString('en-US', {}).split(' ')}
+        {date.toLocaleDateString("en-US", {}).split(" ")}
       </div>
       <div className="space-y-4  p-4">
         <div className="flex items-start gap-4">
