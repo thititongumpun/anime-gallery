@@ -14,7 +14,6 @@ import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,9 +28,14 @@ const FormSchema = z.object({
   rating: z.coerce.number().min(1, {
     message: "Rating must be at least 1.",
   }),
-  message: z.string().min(5, {
-    message: "Message must be at least 5 characters.",
-  }),
+  message: z
+    .string()
+    .min(5, {
+      message: "Message must be at least 5 characters.",
+    })
+    .max(190, {
+      message: "Message must be at most 190 characters.",
+    }),
 });
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,15 +45,17 @@ import { Textarea } from "../ui/textarea";
 import { Rating } from "@smastrom/react-rating";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
+import { useSession } from "next-auth/react";
 
 export default function ReviewForm() {
   const router = useRouter();
+  const { data: session } = useSession();
   const { id } = router.query;
   const trpc = api.useContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      username: "guest",
       message: "",
       rating: 0,
     },
@@ -76,6 +82,7 @@ export default function ReviewForm() {
 
     await submit.mutateAsync(req);
   }
+  // Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, delectus quis perferendis ducimus doloribus magnam amet nisi, earum, doloremque similique unde ex aliquam officiis sint impedit qui debitis inventore? Eos?
   return (
     <div className="flex items-center justify-center gap-2">
       <Sheet>
@@ -95,22 +102,21 @@ export default function ReviewForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex w-full flex-col items-center justify-center gap-4"
               >
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {!session && (
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="rating"
@@ -137,9 +143,6 @@ export default function ReviewForm() {
                       <FormControl>
                         <Textarea {...field} />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

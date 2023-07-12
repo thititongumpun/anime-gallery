@@ -10,6 +10,7 @@ import type {
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import Hero from "@/components/common/Hero";
 import dynamic from "next/dynamic";
+
 const DynamicSlider = dynamic(() => import("@/components/common/Slider"));
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -41,7 +42,7 @@ Home.getLayout = function (page: React.ReactElement) {
 export const getStaticProps: GetStaticProps =
   async ({}: GetStaticPropsContext) => {
     const ssg = generateSSGHelper();
-    await ssg.product.getProductsShow.fetch();
+    await ssg.product.getProductsShow.prefetch();
     return {
       props: {
         trpcState: ssg.dehydrate(),
