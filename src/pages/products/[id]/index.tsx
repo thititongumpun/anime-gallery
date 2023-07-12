@@ -9,9 +9,14 @@ import ProductDetails from "@/components/product/ProductDetails";
 import ProductReview from "@/components/review/ProductReview";
 
 const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
-  const { data } = api.product.getProductById.useQuery({
-    id,
-  });
+  const { data } = api.product.getProductById.useQuery(
+    {
+      id,
+    },
+    {
+      enabled: !!id,
+    }
+  );
 
   if (!data) return <div>404</div>;
 

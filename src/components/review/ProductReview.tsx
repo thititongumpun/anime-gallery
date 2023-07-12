@@ -12,7 +12,6 @@ export default function ProductReview({}: Props) {
   const { data, isLoading } = api.review.getReviews.useQuery({
     productId: id as string,
   });
-  console.log(data);
   if (isLoading) return <Loading />;
   if (!data) return <>Something went Wrong</>;
   return (
