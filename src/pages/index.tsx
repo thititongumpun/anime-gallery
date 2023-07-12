@@ -1,6 +1,5 @@
 import type { NextPageWithLayout } from "./_app";
 import DefaultLayout from "@/components/common/DefaultLayout";
-// import ProductList from "@/components/product/ProductList";
 import { api } from "@/utils/api";
 import Loading from "@/components/common/Loading";
 import type {

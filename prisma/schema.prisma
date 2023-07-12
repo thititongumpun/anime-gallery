@@ -2,18 +2,17 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider     = "mysql"
+  provider          = "mysql"
   // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  url               = env("DATABASE_URL")
+  relationMode      = "prisma"
 }
 
 model Product {
@@ -30,6 +29,7 @@ model Product {
   updatedAt     DateTime  @updatedAt
   category      Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   order         Order?
+  review        Review[]
 
   @@index(categoryId)
   @@map("product")
@@ -70,6 +70,7 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index(userId)
   @@map("session")
 }
@@ -98,11 +99,24 @@ model VerificationToken {
 
 model Order {
   id          String   @id @default(cuid())
-  product     Product? @relation(fields: [productId], references: [id])
-  productId   String   @unique
+  productId   String?  @unique
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   description String
 
   @@map("order")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String?
+  username  String
+  date      DateTime
+  rating    Int
+  message   String
+  Products  Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([productId])
+  @@map("review")
 }
 
 enum Role {

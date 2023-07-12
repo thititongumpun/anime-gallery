@@ -6,6 +6,7 @@ import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import { api } from "@/utils/api";
 import ProductImage from "@/components/product/ProductImage";
 import ProductDetails from "@/components/product/ProductDetails";
+import ProductReview from "@/components/review/ProductReview";
 
 const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   const { data } = api.product.getProductById.useQuery({
@@ -21,6 +22,7 @@ const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
         <ProductDetails product={data} />
       </div>
       {/* <Button className="flex items-center justify-center">asd</Button> */}
+      <ProductReview />
     </main>
   );
 };
