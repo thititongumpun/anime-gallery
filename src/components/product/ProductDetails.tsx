@@ -16,7 +16,6 @@ export default function ProductDetails({ product }: Props) {
 
   return (
     <div className="min-h-128 mx-auto flex h-full w-full max-w-xs flex-col justify-between space-y-4 md:w-1/2">
-      <Button onClick={router.back}>Back to products</Button>
       <div>
         <h1 className=" py-2 text-3xl font-extrabold leading-relaxed sm:py-4">
           {product.product_name}
@@ -26,8 +25,25 @@ export default function ProductDetails({ product }: Props) {
           <Price amount={product.amount} />
         </div>
       </div>
-      <Button onClick={() => addToCart(product)}>xd</Button>
-      <ReviewForm />
+
+      <div className="inline-flex">
+        <Button
+          variant={"outline"}
+          className="rounded-l-lg px-4 py-2 text-sm font-medium focus:z-10"
+          onClick={() => addToCart(product)}
+        >
+          Add to cart
+        </Button>
+        <Button
+          variant={"outline"}
+          className="rounded-l-lg px-4 py-2 text-sm font-medium focus:z-10"
+          onClick={router.back}
+        >
+          Back
+        </Button>
+        <ReviewForm />
+      </div>
+
       {/* <ProductForm 
         title={productData.title}
         handle={productData.handle}

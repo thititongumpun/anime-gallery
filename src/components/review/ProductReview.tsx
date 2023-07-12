@@ -16,7 +16,7 @@ export default function ProductReview({}: Props) {
     api.review.getReviewsBatch.useInfiniteQuery(
       {
         productId: id as string,
-        limit: 6,
+        limit: 3,
       },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -51,7 +51,7 @@ export default function ProductReview({}: Props) {
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
         )}
-        <div className="mx-auto grid max-w-5xl auto-cols-max grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-8">
+        <div className="mx-auto grid max-w-5xl auto-cols-max grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
           {!isLoading &&
             toShow?.map((review) => (
               <ReviewCard
