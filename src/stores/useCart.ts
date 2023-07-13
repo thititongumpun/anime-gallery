@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import type { Product } from '@/types/Product';
+import getStripe from '@/utils/stripe';
+import axios from 'axios';
 
 export type CartState = {
   cart: Product[];
@@ -9,6 +11,7 @@ export type CartState = {
   numberOfProducts: number;
   addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
+  createCheckOutSession: (product: Product[]) => void
 }
 
 const useCartStore = create<CartState>()(
@@ -25,8 +28,6 @@ const useCartStore = create<CartState>()(
             if (alreadyAdded)
               return {
                 ...state,
-                // totalAmount: state.totalAmount + product.amount,
-                // numberOfProducts: state.numberOfProducts + 1
               };
 
             return {
@@ -44,6 +45,35 @@ const useCartStore = create<CartState>()(
             totalAmount: state.totalAmount - product.amount,
             numberOfProducts: state.numberOfProducts - 1
           }));
+        },
+        createCheckOutSession: async products => {
+          const stripe = await getStripe();
+          const line_items = products.map((product) => ({
+            price_data: {
+              currency: "THB",
+              unit_amount: Math.floor(product.amount) * 100,
+              product_data: {
+                name: product.product_name,
+                description: product.description,
+                images: [`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string}/image/upload/${product.image_url}`],
+              },
+            },
+
+            quantity: 1,
+          }))
+
+          const checkoutSession = await axios.post(
+            "/api/checkout_sessions",
+            line_items
+          );
+
+          const result = await stripe?.redirectToCheckout({
+            sessionId: checkoutSession.data.id,
+          });
+
+          if (result?.error) {
+            alert(result?.error.message);
+          }
         }
       }),
       {
