@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Price from "../common/Price";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 type Props = {
   open: boolean;
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export default function Carts({ open, setOpen }: Props) {
+  const { data: session } = useSession();
   const [cart, totalAmount, removeFromCart, clearCart, createCheckOutSession] =
     useCartStore((state) => [
       state.cart,
@@ -22,6 +25,15 @@ export default function Carts({ open, setOpen }: Props) {
       state.clearCart,
       state.createCheckOutSession,
     ]);
+
+  const handleNovu = async () => {
+    const res = await axios.post("/api/novu", {
+      email: session?.user.email,
+      product_name: cart.map((p) => JSON.stringify(p.product_name)),
+    });
+    console.log(res);
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={setOpen}>
@@ -130,12 +142,17 @@ export default function Carts({ open, setOpen }: Props) {
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6 space-y-4">
-                        <Button
-                          className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                          onClick={() => createCheckOutSession(cart)}
-                        >
-                          Checkout
-                        </Button>
+                        {cart.length > 0 && (
+                          <Button
+                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                            onClick={() => {
+                              void handleNovu();
+                              createCheckOutSession(cart);
+                            }}
+                          >
+                            Checkout
+                          </Button>
+                        )}
                         <Button
                           variant={"destructive"}
                           className="shadow-s flex w-full items-center justify-center rounded-md border  border-transparent px-6 py-3 text-base font-medium text-white"

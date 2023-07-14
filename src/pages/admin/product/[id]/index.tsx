@@ -9,6 +9,7 @@ import Layout from "@/components/common/Layout";
 import { Label } from "@/components/ui/label";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
+import EditProductAdmin from "@/components/product/EditProductAdmin";
 
 const ProductPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -76,6 +77,7 @@ const ProductPage: NextPageWithLayout = () => {
           </span>
         </div>
         <h3>Published By {data?.publishedBy}</h3>
+        <EditProductAdmin product={data}/>
         <Button variant="destructive" onClick={router.back}>
           Back
         </Button>

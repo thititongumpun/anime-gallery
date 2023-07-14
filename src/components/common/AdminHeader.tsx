@@ -2,6 +2,7 @@ import React from "react";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownUser from "./DropdownUser";
 import Link from "next/link";
+import NovuHeader from "../notification/NovuHeader";
 
 export default function AdminHeader() {
   return (
@@ -16,7 +17,8 @@ export default function AdminHeader() {
         </Link>
         {/* Menu */}
         <ul className="hidden list-none flex-col items-center gap-3 md:flex md:flex-row">
-          <DarkModeSwitcher />
+          <DarkModeSwitcher />          
+          <NovuHeader />
           <DropdownUser />
         </ul>
       </div>
