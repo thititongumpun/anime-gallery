@@ -22,4 +22,23 @@ export const categoryRouter = createTRPCRouter({
         }
       });
     }),
+
+  create: protectedProcedure
+    .input(z.object({
+      category_name: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { ...rest } = input;
+      return await ctx.prisma.category.create({
+        data: { ...rest }
+      });
+    }),
+
+  getTest: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.category.findMany({
+      include: {
+        products: true
+      }
+    })
+  })
 });

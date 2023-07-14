@@ -30,7 +30,7 @@ export const ProductPageList: NextPageWithLayout = () => {
   }, [fetchNextPage, hasNextPage, inView]);
 
   if (isLoading) return <Loading />;
-  
+
   return (
     <>
       <section className="mt-16 h-fit px-4 py-4 md:px-8">

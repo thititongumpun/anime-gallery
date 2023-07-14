@@ -51,7 +51,7 @@ export default function ProductReview({}: Props) {
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
         )}
-        <div className="mx-auto grid max-w-5xl auto-cols-max grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <div className="mx-auto grid max-w-5xl auto-cols-max grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
           {!isLoading &&
             toShow?.map((review) => (
               <ReviewCard

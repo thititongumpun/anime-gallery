@@ -11,5 +11,5 @@ export default function Price({ amount }: Props) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
-  return <p className="text-md">{formatted}</p>;
+  return <p className="text-sm">{formatted}</p>;
 }

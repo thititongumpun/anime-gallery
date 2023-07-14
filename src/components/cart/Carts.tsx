@@ -14,12 +14,14 @@ type Props = {
 };
 
 export default function Carts({ open, setOpen }: Props) {
-  const [cart, totalAmount, removeFromCart, createCheckOutSession] = useCartStore((state) => [
-    state.cart,
-    state.totalAmount,
-    state.removeFromCart,
-    state.createCheckOutSession
-  ]);
+  const [cart, totalAmount, removeFromCart, clearCart, createCheckOutSession] =
+    useCartStore((state) => [
+      state.cart,
+      state.totalAmount,
+      state.removeFromCart,
+      state.clearCart,
+      state.createCheckOutSession,
+    ]);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={setOpen}>
@@ -127,12 +129,19 @@ export default function Carts({ open, setOpen }: Props) {
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
                       </p>
-                      <div className="mt-6">
+                      <div className="mt-6 space-y-4">
                         <Button
                           className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                           onClick={() => createCheckOutSession(cart)}
                         >
                           Checkout
+                        </Button>
+                        <Button
+                          variant={"destructive"}
+                          className="shadow-s flex w-full items-center justify-center rounded-md border  border-transparent px-6 py-3 text-base font-medium text-white"
+                          onClick={() => clearCart()}
+                        >
+                          Clear
                         </Button>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">

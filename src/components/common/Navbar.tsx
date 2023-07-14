@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-20 border border-b bg-white shadow-lg dark:bg-black">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 pb-2 pt-4 sm:w-full md:pt-6">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 pb-2 pt-4 sm:w-full md:pt-6">
         <Link href="/">
           <h1 className="flex no-underline">
             <Image

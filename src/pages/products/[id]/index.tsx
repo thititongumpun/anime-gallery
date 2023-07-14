@@ -6,7 +6,6 @@ import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import { api } from "@/utils/api";
 import ProductImage from "@/components/product/ProductImage";
 import ProductDetails from "@/components/product/ProductDetails";
-import ProductReview from "@/components/review/ProductReview";
 
 const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   const { data } = api.product.getProductById.useQuery(
@@ -21,14 +20,21 @@ const ProductPage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   if (!data) return <div>404</div>;
 
   return (
-    <main className="min-h-screen py-12 sm:pt-20">
-      <div className="mx-auto flex w-11/12 max-w-6xl flex-col items-center justify-center space-y-8 md:flex-row md:items-start md:space-x-4 md:space-y-0 lg:space-x-8">
-        <ProductImage product={data} />
-        <ProductDetails product={data} />
+    // <main className="min-h-screen py-12 sm:pt-20">
+    //   <div className="mx-auto flex w-11/12 max-w-6xl flex-col items-center justify-center space-y-8 md:flex-row md:items-start md:space-x-4 md:space-y-0 lg:space-x-8">
+    //     <ProductImage product={data} />
+    //     <ProductDetails product={data} />
+    //   </div>
+    //   <ProductReview />
+    // </main>
+    <section>
+      <div className="relative mx-auto max-w-screen-xl px-4 py-8">
+        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2">
+          <ProductImage product={data} />
+          <ProductDetails product={data} />
+        </div>
       </div>
-      {/* <Button className="flex items-center justify-center">asd</Button> */}
-      <ProductReview />
-    </main>
+    </section>
   );
 };
 

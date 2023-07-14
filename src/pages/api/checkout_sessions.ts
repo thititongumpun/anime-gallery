@@ -8,8 +8,6 @@ const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const items = req.body;
-  console.log(JSON.stringify(items))
-  console.log(req.headers.origin);
   if (req.method === 'POST') {
     try {
       const params: Stripe.Checkout.SessionCreateParams = {
@@ -33,8 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         cancel_url: `${req.headers.origin as string}`,
       };
 
-      const checkoutSession: Stripe.Checkout.Session =
-        await stripe.checkout.sessions.create(params);
+      const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(params);
 
       res.status(200).json(checkoutSession);
     } catch (err) {

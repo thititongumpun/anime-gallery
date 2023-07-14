@@ -88,8 +88,6 @@ const CreateProductPage: NextPageWithLayout = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    console.log(secureUrl);
     await submit.mutateAsync({
       categoryId: values.categoryId,
       product_name: values.product_name,

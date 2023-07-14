@@ -11,6 +11,7 @@ export type CartState = {
   numberOfProducts: number;
   addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
+  clearCart: () => void
   createCheckOutSession: (product: Product[]) => void
 }
 
@@ -45,6 +46,14 @@ const useCartStore = create<CartState>()(
             totalAmount: state.totalAmount - product.amount,
             numberOfProducts: state.numberOfProducts - 1
           }));
+        },
+        clearCart: () => {
+          set({
+            cart: [],
+            totalItems: 0,
+            totalAmount: 0,
+            numberOfProducts: 0
+          });
         },
         createCheckOutSession: async products => {
           const stripe = await getStripe();

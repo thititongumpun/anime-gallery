@@ -86,7 +86,12 @@ const CategoryPage: NextPageWithLayout = () => {
   if (!categories) return <>Something went wrong...</>;
 
   return (
-    <section>
+    <section className="mx-auto space-y-2 py-2">
+      <div className="flex items-center justify-center">
+        <Link href="/admin/category/create">
+          <Button>Create</Button>
+        </Link>
+      </div>
       <DataTable columns={columns} data={categories} />
     </section>
   );

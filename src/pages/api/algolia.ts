@@ -23,13 +23,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   // rename key
   products.map((p) => Object.assign(p, { objectID: p.id })['id']);
 
-  index
+  await index
     .saveObjects(products)
-    .then(({ objectIDs }) => {
+    .then(({ objectIDs, taskIDs }) => {
       console.log(objectIDs);
+      console.log(taskIDs);
     })
     .catch(err => {
       console.log(err);
     });
-  res.json(index);
+  res.json(products);
 }

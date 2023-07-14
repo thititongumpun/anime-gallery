@@ -61,6 +61,30 @@ export const productAdminRouter = createTRPCRouter({
       });
     }),
 
+  update: protectedProcedure
+    .input(z.object({
+      id: z.string(),
+      categoryId: z.string(),
+      product_name: z.string(),
+      description: z.string(),
+      amount: z.coerce.number(),
+      image_url: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.product.update({
+        data: {
+          categoryId: input.categoryId || undefined,
+          product_name: input.product_name || undefined,
+          description: input.description || undefined,
+          amount: input.amount || undefined,
+          image_url: input.image_url || undefined
+        },
+        where: {
+          id: input.id
+        }
+      })
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.string(), }))
     .mutation(async ({ input, ctx }) => {

@@ -13,12 +13,12 @@ type Props = {
 };
 
 export default function ProductCard({ product }: Props) {
-  const { id, product_name, amount, image_url } = product;
+  const { id, product_name, amount, is_new, image_url } = product;
   const addToCart = useCartStore((state) => state.addToCart);
   return (
     <div className="mb-2 flex w-full min-w-[15rem] snap-center flex-col justify-between rounded-lg bg-gray-50 shadow-lg drop-shadow-md dark:text-black md:w-60">
       <Link href={`/products/${id}`}>
-        <div className="relative h-72 w-full">
+        <div className="group relative block h-72 w-full overflow-hidden">
           <Image
             loader={cloudinaryImageLoader}
             src={image_url}
@@ -32,34 +32,31 @@ export default function ProductCard({ product }: Props) {
           />
         </div>
       </Link>
-      <div className="flex w-full flex-col items-center justify-end gap-4 px-3 py-4 ">
-        <Link
-          href={`/products/${id}`}
-          className="flex w-full flex-col items-center justify-end gap-2"
-        >
-          <h4 className=" text-center text-xl font-medium hover:text-amber-400 ">
-            {product_name}
-          </h4>
-          <div className="flex flex-wrap">
-            <Badge>New</Badge>
-            <Badge>Hot</Badge>
+      <div className="relative border border-gray-100 bg-white p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="mt-4 text-lg font-medium text-gray-900">
+              {product_name}
+            </h3>
+            <Price amount={amount} />
           </div>
-          <Price amount={amount} />
-        </Link>
-        <div className="flex w-full justify-center">
-          <Button
-            variant="outline"
-            className="w-full dark:text-white"
-            onClick={() => {
-              addToCart(product);
-              toast({
-                description: "Added to cart!",
-              });
-            }}
-          >
-            Add to Cart
-          </Button>
+          <div>
+            {is_new && <Badge className="bg-green-500">New</Badge>}
+          </div>
         </div>
+
+        <Button
+          variant="outline"
+          className="mt-4 w-full rounded bg-slate-50 p-4 transition hover:scale-105 dark:text-black"
+          onClick={() => {
+            addToCart(product);
+            toast({
+              description: "Added to cart!",
+            });
+          }}
+        >
+          Add to Cart
+        </Button>
       </div>
     </div>
   );

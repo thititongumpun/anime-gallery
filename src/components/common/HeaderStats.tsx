@@ -2,11 +2,8 @@ import React from "react";
 import CardStats from "./CardStats";
 import { api } from "@/utils/api";
 import Loading from "./Loading";
-import {
-  ArchiveBoxIcon,
-  UserGroupIcon,
-  TagIcon,
-} from "@heroicons/react/24/outline";
+import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { ArchiveIcon, BackpackIcon } from "@radix-ui/react-icons";
 
 type Stats = {
   statSubtitle: string;
@@ -17,8 +14,9 @@ type Stats = {
 };
 
 export default function HeaderStats() {
-  const { data: products, isLoading } =
-    api.productAdmin.getProducts.useQuery({categoryId: ""});
+  const { data: products, isLoading } = api.productAdmin.getProducts.useQuery({
+    categoryId: "",
+  });
   const { data: categories, isLoading: isLoadingCategories } =
     api.category.getCategories.useQuery();
   const { data: users, isLoading: isLoadingUsers } =
@@ -36,21 +34,21 @@ export default function HeaderStats() {
     {
       statSubtitle: "Product",
       statTitle: products.length,
-      statIcon: <ArchiveBoxIcon />,
+      statIcon: <ArchiveIcon className="h-6 w-6" />,
       statIconColor: "bg-blue-500",
       href: "/admin/product",
     },
     {
       statSubtitle: "Category",
       statTitle: categories.length,
-      statIcon: <TagIcon />,
+      statIcon: <BackpackIcon className="h-6 w-6" />,
       statIconColor: "bg-orange-500",
       href: "/admin/category",
     },
     {
       statSubtitle: "User",
       statTitle: users.length,
-      statIcon: <UserGroupIcon />,
+      statIcon: <UserGroupIcon className="h-6 w-6" />,
       statIconColor: "bg-green-500",
       href: "/admin/user",
     },

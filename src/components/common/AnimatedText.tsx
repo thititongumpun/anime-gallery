@@ -49,7 +49,7 @@ export default function AnimatedTextCharacter({ text }: Props) {
           variants={child}
           style={{ marginRight: "5px" }}
           key={index}
-          className="animate-pulse duration-750"
+          className="duration-750 animate-pulse font-extrabold"
         >
           {word}
         </motion.span>

@@ -9,16 +9,78 @@ type Props = {
 
 export default function ProductImage({ product }: Props) {
   return (
-    <div className="border-palette-lighter w-full max-w-md rounded border bg-white shadow-lg md:w-1/2">
-      <div className="relative h-96">
+    // <div className="border-palette-lighter w-full max-w-md rounded border bg-white shadow-lg md:w-1/2">
+    //   <div className="relative h-96">
+    //     <Image
+    //       loader={cloudinaryImageLoader}
+    //       src={product.image_url}
+    //       alt={product.product_name}
+    //       fill
+    //       priority
+    //       sizes="(100vw, 100vh)"
+    //       className="transform duration-500 ease-in-out hover:scale-105"
+    //     />
+    //   </div>
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
+      <Image
+        loader={cloudinaryImageLoader}
+        src={product.image_url}
+        alt={product.product_name}
+        // fill
+        priority
+        width={1770}
+        height={72}
+        sizes="(100vw, 100vh)"
+        className="transform rounded-xl object-cover duration-500 ease-in-out hover:scale-105"
+      />
+
+      <div className="grid grid-cols-2 gap-4 lg:mt-4">
         <Image
           loader={cloudinaryImageLoader}
           src={product.image_url}
           alt={product.product_name}
-          fill
+          // fill
           priority
+          width={1440}
+          height={72}
           sizes="(100vw, 100vh)"
-          className="transform duration-500 ease-in-out hover:scale-105"
+          className="transform rounded-xl object-cover duration-500 ease-in-out hover:scale-105"
+        />
+
+        <Image
+          loader={cloudinaryImageLoader}
+          src={product.image_url}
+          alt={product.product_name}
+          // fill
+          priority
+          width={1770}
+          height={72}
+          sizes="(100vw, 100vh)"
+          className="transform rounded-xl object-cover duration-500 ease-in-out hover:scale-105"
+        />
+
+        <Image
+          loader={cloudinaryImageLoader}
+          src={product.image_url}
+          alt={product.product_name}
+          // fill
+          priority
+          width={1770}
+          height={72}
+          sizes="(100vw, 100vh)"
+          className="transform rounded-xl object-cover duration-500 ease-in-out hover:scale-105"
+        />
+
+        <Image
+          loader={cloudinaryImageLoader}
+          src={product.image_url}
+          alt={product.product_name}
+          // fill
+          priority
+          width={1770}
+          height={72}
+          sizes="(100vw, 100vh)"
+          className="transform rounded-xl object-cover duration-500 ease-in-out hover:scale-105"
         />
       </div>
       {/* <div className="border-palette-lighter relative flex border-t">

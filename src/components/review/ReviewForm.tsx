@@ -31,7 +31,7 @@ const FormSchema = z.object({
   message: z
     .string()
     .min(5, {
-      message: "Message must be at least 5 characters.",
+      message: "Message must be at least 1 characters.",
     })
     .max(190, {
       message: "Message must be at most 190 characters.",
@@ -82,7 +82,6 @@ export default function ReviewForm() {
 
     await submit.mutateAsync(req);
   }
-  // Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, delectus quis perferendis ducimus doloribus magnam amet nisi, earum, doloremque similique unde ex aliquam officiis sint impedit qui debitis inventore? Eos?
   return (
     <div className="flex items-center justify-center gap-2">
       <Sheet>
