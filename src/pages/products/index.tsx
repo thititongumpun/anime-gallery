@@ -5,6 +5,8 @@ import Loading from "@/components/common/Loading";
 import { useInView } from "react-intersection-observer";
 import { api } from "@/utils/api";
 import ProductCard from "@/components/product/ProductCard";
+import type { GetStaticProps, GetStaticPropsContext } from "next";
+import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 
 export const ProductPageList: NextPageWithLayout = () => {
   const { ref, inView } = useInView();
@@ -56,8 +58,20 @@ export const ProductPageList: NextPageWithLayout = () => {
   );
 };
 
+export default ProductPageList;
+
 ProductPageList.getLayout = function (page: React.ReactElement) {
   return <DefaultLayout>{page}</DefaultLayout>;
 };
 
-export default ProductPageList;
+export const getStaticProps: GetStaticProps =
+  async ({}: GetStaticPropsContext) => {
+    const ssg = generateSSGHelper();
+    await ssg.product.getProductsBatch.prefetch({ limit: 4 });
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+      },
+      revalidate: 60,
+    };
+  };
