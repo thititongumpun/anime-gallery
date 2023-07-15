@@ -1,7 +1,7 @@
 import { Novu } from '@novu/node';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const novu = new Novu(process.env.NOVU_API_SECRET as string);
+const novu = new Novu(process.env.NEXT_PUBLIC_NOVU_API_SECRET as string);
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const {email, product_name, ...rest} = req.body;

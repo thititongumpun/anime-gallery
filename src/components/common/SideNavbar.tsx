@@ -5,6 +5,7 @@ import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import DropdownUser from "./DropdownUser";
 import DarkModeSwitcher from "./DarkModeSwitcher";
+import NovuHeader from "../notification/NovuHeader";
 
 export default function SideNavbar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
@@ -35,6 +36,9 @@ export default function SideNavbar() {
         <ul className="flex list-none flex-wrap items-center gap-2 md:hidden">
           <li className="relative inline-block">
             <DarkModeSwitcher />
+          </li>
+          <li className="relative inline-block">
+            <NovuHeader />
           </li>
           <li className="relative inline-block">
             <DropdownUser />

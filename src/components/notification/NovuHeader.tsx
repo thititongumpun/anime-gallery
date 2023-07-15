@@ -17,7 +17,7 @@ export default function NovuHeader({}: Props) {
   }
   return (
     <NovuProvider
-      subscriberId={process.env.NOVU_CLIENT_APP_ID as string}
+      subscriberId={process.env.NEXT_PUBLIC_NOVU_CLIENT_APP_ID as string}
       applicationIdentifier={process.env.NEXT_PUBLIC_APPLICATIONIDENTIFIER as string}
     >
       <PopoverNotificationCenter

@@ -68,19 +68,15 @@ export const productAdminRouter = createTRPCRouter({
       product_name: z.string(),
       description: z.string(),
       amount: z.coerce.number(),
-      image_url: z.string(),
     }))
     .mutation(async ({ ctx, input }) => {
+      const { id, ...rest } = input;
       return await ctx.prisma.product.update({
         data: {
-          categoryId: input.categoryId || undefined,
-          product_name: input.product_name || undefined,
-          description: input.description || undefined,
-          amount: input.amount || undefined,
-          image_url: input.image_url || undefined
+          ...rest
         },
         where: {
-          id: input.id
+          id
         }
       })
     }),
