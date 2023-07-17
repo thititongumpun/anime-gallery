@@ -6,7 +6,6 @@ import DataTable from "@/components/common/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
-// import type { Account, User } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -18,8 +17,10 @@ import {
 import { Label } from "@/components/ui/label";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import Loading from "@/components/common/Loading";
 import type { Account } from "@/types/Account";
+import dynamic from "next/dynamic";
+
+const Loading = dynamic(() => import("@/components/common/Loading"));
 
 const columns: ColumnDef<Account>[] = [
   {
@@ -117,7 +118,6 @@ const columns: ColumnDef<Account>[] = [
 ];
 
 const UserPage: NextPageWithLayout = () => {
-  // const { data: users, isLoading } = api.user.getUsers.useQuery();
   const { data: accounts, isLoading } = api.user.getAccounts.useQuery();
   if (isLoading) return <Loading />;
   if (!accounts) return <div>Something went wrong...</div>;

@@ -18,7 +18,9 @@ import {
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { api } from "@/utils/api";
-import Loading from "@/components/common/Loading";
+import dynamic from "next/dynamic";
+
+const Loading = dynamic(() => import("@/components/common/Loading"));
 
 const columns: ColumnDef<Category>[] = [
   {

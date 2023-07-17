@@ -25,7 +25,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
 import {
   Select,
@@ -34,6 +33,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   product_name: z
@@ -64,10 +64,7 @@ export default function EditProductAdmin({ product }: Props) {
   const trpc = api.useContext();
   const { mutateAsync } = api.productAdmin.update.useMutation({
     onSuccess: (data) => {
-      toast({
-        title: "Update Success",
-        description: `${data.product_name} has been updated.`,
-      });
+      toast.success(`${data.product_name} has been updated.`);
       void trpc.productAdmin.invalidate();
     },
   });

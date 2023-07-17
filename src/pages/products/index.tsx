@@ -1,12 +1,14 @@
 import React, { Fragment, useEffect } from "react";
 import type { NextPageWithLayout } from "../_app";
 import DefaultLayout from "@/components/common/DefaultLayout";
-import Loading from "@/components/common/Loading";
 import { useInView } from "react-intersection-observer";
 import { api } from "@/utils/api";
 import ProductCard from "@/components/product/ProductCard";
 import type { GetStaticProps, GetStaticPropsContext } from "next";
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
+import dynamic from "next/dynamic";
+
+const Loading = dynamic(() => import("@/components/common/Loading"));
 
 export const ProductPageList: NextPageWithLayout = () => {
   const { ref, inView } = useInView();

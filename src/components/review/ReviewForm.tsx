@@ -19,7 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   username: z.string().min(2, {
@@ -46,6 +45,7 @@ import { Rating } from "@smastrom/react-rating";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export default function ReviewForm() {
   const router = useRouter();
@@ -63,11 +63,7 @@ export default function ReviewForm() {
 
   const submit = api.review.createReview.useMutation({
     onSuccess() {
-      toast({
-        title: "Create Success",
-        description: "Review has be created.",
-      });
-
+      toast.success("Review has be created.");
       void trpc.review.invalidate();
     },
   });

@@ -1,7 +1,6 @@
 import React from "react";
 import { api } from "@/utils/api";
 import Layout from "@/components/common/Layout";
-import Loading from "@/components/common/Loading";
 import DataTable from "@/components/common/DataTable";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +18,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { Label } from "@/components/ui/label";
+import dynamic from "next/dynamic";
 
 type Product = {
   id: string;
@@ -30,6 +30,8 @@ type Product = {
     category_name: string;
   };
 };
+
+const Loading = dynamic(() => import("@/components/common/Loading"));
 
 const columns: ColumnDef<Product>[] = [
   {

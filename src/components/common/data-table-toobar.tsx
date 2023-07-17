@@ -11,8 +11,9 @@ import Link from "next/link";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState } from "react";
 import { api } from "@/utils/api";
-import { toast } from "../ui/use-toast";
+// import { toast } from "../ui/use-toast";
 import { Label } from "../ui/label";
+import toast from "react-hot-toast";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -27,10 +28,7 @@ export function DataTableToolbar<TData>({
   const trpc = api.useContext();
   const deleteProduct = api.productAdmin.delete.useMutation({
     onSuccess(data) {
-      toast({
-        title: "Delete Success",
-        description: `${data.product_name} has been deleted.`,
-      });
+      toast.success(`${data.product_name} has been deleted.`)
       void trpc.productAdmin.getProducts.invalidate();
     },
     onError: (error) => {

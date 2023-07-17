@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { api } from "@/utils/api";
 import ReviewCard from "./ReviewCard";
-import Loading from "../common/Loading";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
 type Props = {};
+
+const DynamicLoading = dynamic(() => import("@/components/common/Loading"));
 
 export default function ProductReview({}: Props) {
   const router = useRouter();
@@ -42,7 +44,7 @@ export default function ProductReview({}: Props) {
       </h4>
       {isLoading || (isFetchingNextPage && !toShow) ? (
         <>
-          <Loading />
+          <DynamicLoading />
         </>
       ) : null}
       <div className="mx-auto flex items-center justify-between gap-8">

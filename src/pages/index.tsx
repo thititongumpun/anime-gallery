@@ -1,7 +1,6 @@
 import type { NextPageWithLayout } from "./_app";
 import DefaultLayout from "@/components/common/DefaultLayout";
 import { api } from "@/utils/api";
-import Loading from "@/components/common/Loading";
 import type {
   GetStaticProps,
   GetStaticPropsContext,
@@ -12,6 +11,7 @@ import Hero from "@/components/common/Hero";
 import dynamic from "next/dynamic";
 
 const DynamicSlider = dynamic(() => import("@/components/common/Slider"));
+const DynamicLoading = dynamic(() => import("@/components/common/Loading"));
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Home: NextPageWithLayout<PageProps> = () => {
@@ -20,7 +20,7 @@ const Home: NextPageWithLayout<PageProps> = () => {
     { staleTime: 3000, refetchOnMount: false, refetchOnWindowFocus: false }
   );
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <DynamicLoading />;
   if (!products) return <>Something went Wrong</>;
 
   return (

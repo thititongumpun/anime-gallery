@@ -4,17 +4,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useCartStore } from "@/stores/useCart";
-import { toast } from "../ui/use-toast";
 import Price from "../common/Price";
 import { Badge } from "../ui/badge";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
+import toast from "react-hot-toast";
 type Props = {
   product: Product;
 };
 
 export default function ProductCard({ product }: Props) {
   const { id, product_name, amount, is_new, image_url } = product;
-  const addToCart = useCartStore((state) => state.addToCart);
+  const [cart, addToCart, removeFromCart] = useCartStore((state) => [
+    state.cart,
+    state.addToCart,
+    state.removeFromCart,
+  ]);
+
   return (
     <div className="mb-2 flex w-full min-w-[15rem] snap-center flex-col justify-between rounded-lg bg-gray-50 shadow-lg drop-shadow-md dark:text-black md:w-60">
       <Link href={`/products/${id}`}>
@@ -40,23 +45,33 @@ export default function ProductCard({ product }: Props) {
             </h3>
             <Price amount={amount} />
           </div>
-          <div>
-            {is_new && <Badge className="bg-green-500">New</Badge>}
-          </div>
+          <div>{is_new && <Badge className="bg-green-500">New</Badge>}</div>
         </div>
 
-        <Button
-          variant="outline"
-          className="mt-4 w-full rounded bg-slate-50 p-4 transition hover:scale-105 dark:text-black"
-          onClick={() => {
-            addToCart(product);
-            toast({
-              description: "Added to cart!",
-            });
-          }}
-        >
-          Add to Cart
-        </Button>
+        {cart.some((c) => c.id === id) ? (
+          <Button
+            variant="outline"
+            className="mt-4 w-full rounded bg-slate-50 p-4 transition hover:scale-105 dark:text-black"
+            onClick={() => {
+              removeFromCart(product);
+              toast.success('Removed from cart!')
+            }}
+          >
+            Remove from Cart
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            className="mt-4 w-full rounded bg-slate-50 p-4 transition hover:scale-105 dark:text-black"
+            onClick={() => {
+              addToCart(product);
+              toast.success('Added to cart!')
+            }}
+            disabled={cart.some((c) => c.id === id)}
+          >
+            Add to Cart
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -127,55 +127,6 @@ const CreateProductPage: NextPageWithLayout = () => {
     }
   };
 
-  // const uploadToFirebase = () => {
-  //   if (imageFile) {
-  //     const name = imageFile.name;
-  //     const storageRef = ref(storage, `gallery/${name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, imageFile);
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-  //         setProgressUpload(progress); // to show progress upload
-
-  //         switch (snapshot.state) {
-  //           case "paused":
-  //             toast({
-  //               title: "Paused",
-  //               description: "Upload is paused",
-  //             });
-  //             break;
-  //           case "running":
-  //             toast({
-  //               title: "Running",
-  //               description: "Upload is running",
-  //             });
-  //             break;
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error(error.message);
-  //       },
-  //       async () => {
-  //         await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-  //           setDownloadURL(url);
-  //         });
-  //         toast({
-  //           title: "Success",
-  //           description: "upload successful",
-  //         });
-  //       }
-  //     );
-  //   } else {
-  //     toast({
-  //       title: "Error",
-  //       description: "upload error",
-  //     });
-  //   }
-  // };
-
   return (
     <section className="h-screen w-full">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

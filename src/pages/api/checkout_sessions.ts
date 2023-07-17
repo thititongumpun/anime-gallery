@@ -1,4 +1,6 @@
+import { authOptions } from "@/server/auth";
 import { type NextApiRequest, type NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
 import Stripe from "stripe";
 
 const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, {
@@ -7,6 +9,7 @@ const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, 
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getServerSession(req, res, authOptions)
   const items = req.body;
   if (req.method === 'POST') {
     try {
@@ -27,8 +30,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // ],
         line_items: items,
         mode: "payment",
+        customer_email: session?.user.email as string,
         success_url: `${req.headers.origin as string}/success`,
         cancel_url: `${req.headers.origin as string}`,
+        locale: "th"
       };
 
       const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(params);

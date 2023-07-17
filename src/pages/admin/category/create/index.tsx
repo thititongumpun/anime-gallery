@@ -15,9 +15,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const FormSchema = z.object({
   category_name: z.string().min(2, {
@@ -36,26 +36,14 @@ const CreateCategoryPage: NextPageWithLayout = () => {
   });
 
   const { mutateAsync } = api.category.create.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Category created successfully.",
-      });
-
+    onSuccess: (data) => {
+      toast.success(`${data.category_name} has been created.`);
       void trpc.category.getCategories.invalidate();
       router.back;
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-
     await mutateAsync(data);
   }
   return (

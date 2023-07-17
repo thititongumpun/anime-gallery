@@ -7,13 +7,13 @@ import "@algolia/autocomplete-theme-classic";
 import "swiper/css/bundle";
 import "@smastrom/react-rating/style.css";
 import Head from "next/head";
-import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,7 +53,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 <Component {...pageProps} />
               </main>
               <ReactQueryDevtools initialIsOpen={false} />
-              <Toaster />
+              <Toaster position="bottom-right" />
             </>
           )}
         </ThemeProvider>
