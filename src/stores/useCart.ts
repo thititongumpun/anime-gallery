@@ -12,7 +12,7 @@ export type CartState = {
   addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
   clearCart: () => void
-  createCheckOutSession: (product: Product[]) => void
+  createCheckOutSession: (product: Product[], description: string) => void
 }
 
 const useCartStore = create<CartState>()(
@@ -55,7 +55,7 @@ const useCartStore = create<CartState>()(
             numberOfProducts: 0
           });
         },
-        createCheckOutSession: async products => {
+        createCheckOutSession: async (products, description) => {
           const stripe = await getStripe();
           const line_items = products.map((product) => ({
             price_data: {
@@ -67,13 +67,20 @@ const useCartStore = create<CartState>()(
                 images: [`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string}/image/upload/${product.image_url}`],
               },
             },
-
             quantity: 1,
           }))
 
+          const productId = products.map((product) => product.id);
+
+          const obj = {
+            line_items,
+            description,
+            productId
+          }
+
           const checkoutSession = await axios.post(
             "/api/checkout_sessions",
-            line_items
+            obj
           );
 
           const result = await stripe?.redirectToCheckout({

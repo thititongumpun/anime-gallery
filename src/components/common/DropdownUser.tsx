@@ -41,6 +41,11 @@ export default function DropdownUser() {
               </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex cursor-pointer items-center">
+              <UserCircleIcon className="mr-2 h-4 w-4" />
+              <Link href="/order">Your Order</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               className="flex cursor-pointer items-center"
               onClick={() => void signOut({ callbackUrl: "/" })}

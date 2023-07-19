@@ -12,7 +12,7 @@ const DynamicNavbar = dynamic(() => import("@/components/common/Navbar"), {
 
 export default function DefaultLayout({ children }: Props) {
   return (
-    <div className="flex flex-col justify-between md:min-h-screen">
+    <div className="flex flex-col justify-between">
       <DynamicNavbar />
       <main>{children}</main>
     </div>

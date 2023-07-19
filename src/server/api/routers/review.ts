@@ -11,7 +11,7 @@ export const reviewRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.review.findMany({
         where: {
-          productId: input.productId
+          product_id: input.productId
         }
       });
     }),
@@ -35,7 +35,7 @@ export const reviewRouter = createTRPCRouter({
         skip: skip,
         cursor: cursor ? { id: cursor } : undefined,
         where: {
-          productId: input.productId
+          product_id: input.productId
         }
       });
       let nextCursor: typeof cursor | undefined = undefined;
@@ -59,7 +59,7 @@ export const reviewRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.review.create({
         data: {
-          productId: input.productId,
+          product_id: input.productId,
           username: ctx.session?.user.name as string || input.username,
           rating: input.rating,
           message: input.message

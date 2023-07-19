@@ -7,8 +7,9 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Price from "../common/Price";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
-import { useSession } from "next-auth/react";
-import axios from "axios";
+// import { useSession } from "next-auth/react";
+// import axios from "axios";
+import Link from "next/link";
 
 type Props = {
   open: boolean;
@@ -16,23 +17,22 @@ type Props = {
 };
 
 export default function Carts({ open, setOpen }: Props) {
-  const { data: session } = useSession();
-  const [cart, totalAmount, removeFromCart, clearCart, createCheckOutSession] =
+  // const { data: session } = useSession();
+  const [cart, totalAmount, removeFromCart, clearCart] =
     useCartStore((state) => [
       state.cart,
       state.totalAmount,
       state.removeFromCart,
-      state.clearCart,
-      state.createCheckOutSession,
+      state.clearCart
     ]);
 
-  const handleNovu = async () => {
-    const res = await axios.post("/api/novu", {
-      email: session?.user.email,
-      product_name: cart.map((p) => JSON.stringify(p.product_name)),
-    });
-    console.log(res);
-  };
+  // const handleNovu = async () => {
+  //   const res = await axios.post("/api/novu", {
+  //     email: session?.user.email,
+  //     product_name: cart.map((p) => JSON.stringify(p.product_name)),
+  //   });
+  //   console.log(res);
+  // };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -143,15 +143,11 @@ export default function Carts({ open, setOpen }: Props) {
                       </p>
                       <div className="mt-6 space-y-4">
                         {cart.length > 0 && (
-                          <Button
-                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                            onClick={() => {
-                              void handleNovu();
-                              createCheckOutSession(cart);
-                            }}
-                          >
-                            Checkout
-                          </Button>
+                          <Link href="/checkout">
+                            <Button className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                              Checkout
+                            </Button>
+                          </Link>
                         )}
                         <Button
                           variant={"destructive"}

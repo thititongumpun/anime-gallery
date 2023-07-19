@@ -31,7 +31,7 @@ export default function Slider({ products }: Props) {
       centeredSlides={true}
       pagination={true}
       autoplay={{
-        delay: 2500,
+        delay: 5000,
         disableOnInteraction: false,
       }}
       grabCursor={true}

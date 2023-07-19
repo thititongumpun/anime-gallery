@@ -104,7 +104,7 @@ const CreateProductPage: NextPageWithLayout = () => {
       "api_key",
       process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || ""
     );
-    formData.append("file", e.target.files?.[0] || "");
+    formData.append("file", e.target.files?.[0] as File);
 
     const config = {
       onUploadProgress: (e: any) => {

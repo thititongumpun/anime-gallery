@@ -10,11 +10,16 @@ const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
-  const items = req.body;
+  const { line_items, productId, description } = req.body;
   if (req.method === 'POST') {
     try {
       const params: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
+        metadata: {
+          products: JSON.stringify(line_items.map((item: any) => item.price_data.product_data)),
+          description: description,
+          productId: JSON.stringify(productId)
+        },
         // shipping_options: [
         //   {
         //     shipping_rate_data: {
@@ -28,12 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         //     },
         //   },
         // ],
-        line_items: items,
+        line_items: line_items,
         mode: "payment",
         customer_email: session?.user.email as string,
-        success_url: `${req.headers.origin as string}/success`,
+        success_url: `${req.headers.origin as string}/order`,
         cancel_url: `${req.headers.origin as string}`,
-        locale: "th"
+        locale: "th",
       };
 
       const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(params);

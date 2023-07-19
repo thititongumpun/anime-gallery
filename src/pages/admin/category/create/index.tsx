@@ -39,7 +39,7 @@ const CreateCategoryPage: NextPageWithLayout = () => {
     onSuccess: (data) => {
       toast.success(`${data.category_name} has been created.`);
       void trpc.category.getCategories.invalidate();
-      router.back;
+      router.back();
     },
   });
 
