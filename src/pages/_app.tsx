@@ -8,12 +8,12 @@ import "swiper/css/bundle";
 import "@smastrom/react-rating/style.css";
 import Head from "next/head";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
-import { GoogleAnalytics } from "nextjs-google-analytics";
 import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,12 +42,27 @@ const MyApp: AppType<{ session: Session | null }> = ({
             <>
               <Head>
                 <title>Gallery</title>
-                <meta name="description" content="Otaku Gallery" />
+                <meta name="description" content="Anime Gallery" />
                 <link rel="icon" href="/favicon.ico" />
               </Head>
-              <GoogleAnalytics
-                trackPageViews
-                gaMeasurementId={gaMeasurementId}
+              <Script
+                strategy="worker"
+                src={`https://www.googletagmanager.com/gtag/js?id=${
+                  gaMeasurementId as string
+                }`}
+              />
+              <Script
+                id="google-analytics"
+                type="text/partytown"
+                dangerouslySetInnerHTML={{
+                  __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+      
+                gtag('config', '${gaMeasurementId as string}');
+                `,
+                }}
               />
               <main className={`${inter.variable} font-sans`}>
                 <Component {...pageProps} />

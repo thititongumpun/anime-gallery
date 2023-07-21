@@ -23,14 +23,29 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   // rename key
   products.map((p) => Object.assign(p, { objectID: p.id })['id']);
 
-  await index
-    .saveObjects(products)
-    .then(({ objectIDs, taskIDs }) => {
-      console.log(objectIDs);
-      console.log(taskIDs);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  const d = new Date();
+  d.setDate(d.getDate() - 1)
+
+  const checkProduct = await prisma.product.findMany({
+    where: {
+      publishedAt: {
+        gte: d
+      }
+    }
+  });
+
+  if (checkProduct) {
+    await index
+      .saveObjects(products)
+      .then(({ objectIDs, taskIDs }) => {
+        console.log(objectIDs);
+        console.log(taskIDs);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
   res.json(products);
 }

@@ -9,7 +9,6 @@ import type {
 import { generateSSGHelper } from "@/server/helpers/ssgHelper";
 import Hero from "@/components/common/Hero";
 import dynamic from "next/dynamic";
-
 const DynamicSlider = dynamic(() => import("@/components/common/Slider"));
 const DynamicLoading = dynamic(() => import("@/components/common/Loading"));
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;

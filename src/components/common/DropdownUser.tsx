@@ -10,7 +10,7 @@ import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { UserCircleIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon, LockClosedIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export default function DropdownUser() {
@@ -42,7 +42,7 @@ export default function DropdownUser() {
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem className="flex cursor-pointer items-center">
-              <UserCircleIcon className="mr-2 h-4 w-4" />
+              <DocumentTextIcon className="mr-2 h-4 w-4" />
               <Link href="/order">Your Order</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
