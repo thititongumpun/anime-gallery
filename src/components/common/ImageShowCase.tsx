@@ -19,7 +19,7 @@ export default function ImageShowCase({ product }: Props) {
           src={image_url}
           alt={product_name}
           fill
-          className="rounded-lg object-cover"
+          className="rounded-lg object-contain md:object-cover"
           sizes="(min-width: 60em) 24vw,
                     (min-width: 28em) 45vw,
                     100vw"
