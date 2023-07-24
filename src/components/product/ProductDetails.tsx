@@ -8,6 +8,7 @@ import ReviewForm from "../review/ReviewForm";
 import ProductReview from "../review/ProductReview";
 import { Rating, RoundedStar } from "@smastrom/react-rating";
 import { api } from "@/utils/api";
+import SkeletonLoader from "../common/SkeletonLoader";
 
 type Props = {
   product: Product;
@@ -18,7 +19,7 @@ export default function ProductDetails({ product }: Props) {
   const router = useRouter();
   const { product_name, description, amount, is_new } = product;
   const { id } = router.query;
-  const { data: reviews } = api.review.getReviews.useQuery(
+  const { data: reviews, isLoading } = api.review.getReviews.useQuery(
     {
       productId: id as string,
     },
@@ -27,8 +28,9 @@ export default function ProductDetails({ product }: Props) {
     }
   );
 
-  if (!reviews) return <div>Something went wrong!!!</div>;
+  if (isLoading) return <SkeletonLoader />;
 
+  if (!reviews) return <div>Something went wrong</div>;
   const rating = Math.round(
     reviews?.reduce((acc, review) => acc + review.rating, 0) / reviews?.length
   );

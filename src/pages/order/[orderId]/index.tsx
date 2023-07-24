@@ -6,11 +6,14 @@ import { api } from "@/utils/api";
 import Image from "next/image";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
 import Price from "@/components/common/Price";
+import dynamic from "next/dynamic";
+
+const DynamicLoading = dynamic(() => import("@/components/common/Loading"));
 
 const OrderIdPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { orderId } = router.query;
-  const { data: orders } = api.order.getOrderItems.useQuery(
+  const { data: orders, isLoading } = api.order.getOrderItems.useQuery(
     {
       id: orderId as string,
     },
@@ -18,6 +21,8 @@ const OrderIdPage: NextPageWithLayout = () => {
       enabled: !!orderId,
     }
   );
+
+  if (isLoading) return <DynamicLoading />;
 
   return (
     <div className="px-4 py-14 2xl:container md:px-6 2xl:mx-auto 2xl:px-20">
@@ -67,15 +72,8 @@ const OrderIdPage: NextPageWithLayout = () => {
                     </h3>
                     <div className="flex flex-col items-start justify-start space-y-2">
                       <p className="text-sm leading-none ">
-                        <span className="text-gray-300">Style: </span> Italic
-                        Minimal Design
-                      </p>
-                      <p className="text-sm leading-none ">
-                        <span className="text-gray-300">Size: </span> Small
-                      </p>
-                      <p className="text-sm leading-none ">
-                        <span className="text-gray-300">Color: </span> Light
-                        Blue
+                        <span className="text-md font-bold">Description: </span>{" "}
+                        {order.product.description}
                       </p>
                     </div>
                   </div>
