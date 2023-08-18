@@ -65,10 +65,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 `,
                 }}
               />
-              <Script 
+              <Script
                 // <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4998059744687395"
                 // crossorigin="anonymous"></script>
+                id="Adsense-id"
+                data-ad-client="ca-pub-4998059744687395"
                 async
+                strategy="afterInteractive"
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4998059744687395"
                 crossOrigin="anonymous"
                 type="text/partytown"
