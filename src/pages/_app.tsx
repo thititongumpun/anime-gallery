@@ -66,16 +66,24 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 }}
               />
               <Script
-                // <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4998059744687395"
-                // crossorigin="anonymous"></script>
-                id="Adsense-id"
                 async
-                onError={(e) => { console.error("Script failed to load", e); }}
-                data-ad-client="ca-pub-4998059744687395"
-                strategy="afterInteractive"
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4998059744687395"
+                onError={(e) => {
+                  console.error("Script failed to load", e);
+                }}
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
                 crossOrigin="anonymous"
-                // type="text/partytown"
+              />
+              <Script
+                id="Adsense-id"
+                type="text/partytown"
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    (adsbygoogle = window.adsbygoogle || []).push({
+                    google_ad_client: "ca-pub-4998059744687395",
+                    enable_page_level_ads: true
+                    });
+                  `,
+                }}
               />
               <main className={`${inter.variable} font-sans`}>
                 <Component {...pageProps} />
