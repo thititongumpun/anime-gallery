@@ -5,6 +5,9 @@ import { api } from "@/utils/api";
 import Link from "next/link";
 import Price from "@/components/common/Price";
 import Loading from "@/components/common/Loading";
+import { authOptions } from "@/server/auth";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { getServerSession } from "next-auth";
 
 const OrderPage: NextPageWithLayout = () => {
   const { data: orders, isLoading } = api.order.getOrders.useQuery();
@@ -70,6 +73,26 @@ const OrderPage: NextPageWithLayout = () => {
 
 OrderPage.getLayout = (page: React.ReactElement) => {
   return <DefaultLayout>{page}</DefaultLayout>;
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 };
 
 export default OrderPage;

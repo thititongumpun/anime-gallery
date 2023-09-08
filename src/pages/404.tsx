@@ -11,8 +11,8 @@ export default function NotFoundPage({}: Props) {
   return (
     <main>
       <div className="mx-auto flex h-screen max-w-screen-xl items-center justify-start px-4 md:px-8">
-        <div className="mx-auto max-w-lg flex-1 flex-row-reverse items-center justify-between gap-12 md:flex md:max-w-none">
-          <div className="max-w-lg flex-1">
+        <div className="mx-auto max-w-lg flex-row-reverse items-center justify-between gap-12 md:flex md:max-w-none">
+          <div className="mt-12 max-w-lg flex-1 space-y-3 md:mt-0">
             <Image
               loader={cloudinaryImageLoader}
               src="anime/bbwmskv8idhifsgakvba.jpg"
@@ -21,16 +21,6 @@ export default function NotFoundPage({}: Props) {
               height={800}
               priority
             />
-          </div>
-          <div className="mt-12 max-w-lg flex-1 space-y-3 md:mt-0">
-            <h3 className="font-semibold text-indigo-600">404 Error</h3>
-            <p className="text-4xl font-semibold text-gray-800 sm:text-5xl">
-              Page not found
-            </p>
-            <p className="text-gray-600">
-              Sorry, the page you are looking for could not be found or has been
-              removed.
-            </p>
             <Button
               variant={"link"}
               onClick={() => router.push("/")}

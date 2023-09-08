@@ -7,6 +7,10 @@ import Image from "next/image";
 import { cloudinaryImageLoader } from "@/utils/cloudinary";
 import Price from "@/components/common/Price";
 import dynamic from "next/dynamic";
+import NotFoundPage from "@/pages/404";
+import { authOptions } from "@/server/auth";
+import { type GetServerSideProps, type GetServerSidePropsContext } from "next";
+import { getServerSession } from "next-auth";
 
 const DynamicLoading = dynamic(() => import("@/components/common/Loading"));
 
@@ -23,6 +27,8 @@ const OrderIdPage: NextPageWithLayout = () => {
   );
 
   if (isLoading) return <DynamicLoading />;
+
+  if (!orders || orders.length === 0) return <NotFoundPage />
 
   return (
     <div className="px-4 py-14 2xl:container md:px-6 2xl:mx-auto 2xl:px-20">
@@ -225,6 +231,26 @@ const OrderIdPage: NextPageWithLayout = () => {
 
 OrderIdPage.getLayout = function (page: React.ReactElement) {
   return <DefaultLayout>{page}</DefaultLayout>;
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 };
 
 export default OrderIdPage;

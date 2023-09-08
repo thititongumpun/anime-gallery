@@ -23,7 +23,7 @@ export const orderRouter = createTRPCRouter({
       });
     }),
 
-  getOrderItems: publicProcedure
+  getOrderItems: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const { id } = input;
@@ -33,7 +33,16 @@ export const orderRouter = createTRPCRouter({
           order: true
         },
         where: {
-          order_id: Number(id)
+          AND: [
+            {
+              order_id: Number(id),
+            },
+            {
+              order: {
+                user_id: ctx.session?.user.id
+              }
+            }
+          ]
         }
       });
     }),

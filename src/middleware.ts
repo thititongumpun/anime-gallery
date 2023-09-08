@@ -4,7 +4,7 @@ export default withAuth({
   callbacks: {
     authorized({ req, token }) {
       // `/admin` requires admin role
-      if (req.nextUrl.pathname === "/admin") {
+      if (req.nextUrl.pathname.startsWith("/admin")) {
         return token?.role === "ADMIN"
       }
       // `/me` only requires the user to be logged in
@@ -15,5 +15,5 @@ export default withAuth({
 })
 
 export const config = {
-  matcher: ["/((?!_next/image|_next/static|favicon.ico|/admin/:path*).*)"],
+  matcher: ["/((?!_next/image|_next/static|favicon.ico|/admin/:path*).*)", "/admin/product"],
 };

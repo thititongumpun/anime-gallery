@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, token }) {
       session.user.role = token.role as string;
+      session.user.id = token.sub as string;
       return session;
     },
     jwt({ token, user }) {
