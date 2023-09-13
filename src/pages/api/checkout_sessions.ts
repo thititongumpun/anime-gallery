@@ -5,7 +5,7 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, {
   // https://github.com/stripe/stripe-node#configuration
-  apiVersion: "2022-11-15",
+  apiVersion: "2023-08-16",
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

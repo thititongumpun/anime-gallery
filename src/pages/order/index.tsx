@@ -6,7 +6,7 @@ import Link from "next/link";
 import Price from "@/components/common/Price";
 import Loading from "@/components/common/Loading";
 import { authOptions } from "@/server/auth";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 
 const OrderPage: NextPageWithLayout = () => {
