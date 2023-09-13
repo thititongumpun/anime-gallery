@@ -6,7 +6,7 @@ import Cors from 'micro-cors';
 
 const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_APIKEY as string}`, {
   // https://github.com/stripe/stripe-node#configuration
-  apiVersion: "2022-11-15",
+  apiVersion: "2023-08-16",
 });
 
 const webhookSecret = process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET;
@@ -68,6 +68,8 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         status
       }
     })
+
+    console.log(order);
 
     if (order) {
       products.map(async (product: string) => {
