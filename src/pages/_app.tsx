@@ -66,15 +66,21 @@ const MyApp: AppType<{ session: Session | null }> = ({
                 }}
               />
               <Script
+                id="Adsense-id"
+                data-ad-client={`                  ${
+                  process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID as string
+                }`}
                 async
+                strategy="afterInteractive"
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${
+                  process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID as string
+                }`}
+                crossOrigin="anonymous"
                 onError={(e) => {
                   console.error("Script failed to load", e);
                 }}
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID as string}`}
-                strategy="worker"
-                crossOrigin="anonymous"
               />
-              <Script
+              {/* <Script
                 id="Adsense-id"
                 type="text/partytown"
                 dangerouslySetInnerHTML={{
@@ -85,7 +91,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
                     });
                   `,
                 }}
-              />
+              /> */}
               <main className={`${inter.variable} font-sans`}>
                 <Component {...pageProps} />
               </main>
